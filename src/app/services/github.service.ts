@@ -24,20 +24,16 @@ export class GithubService {
   private httpClient = inject(HttpClient);
   private cache = inject(LocalStorageCacheService);
 
-
-
   public getLanguagesUsed(repoName: string): Observable<Result<Record<string, number>>> {
     const cacheKey = `${this.LanguagesEndpoint}-${repoName}`;
     const endpoint = `${this.RepoEndpoint}/${repoName}/${this.LanguagesEndpoint}`;
     return this.getAndCache<Record<string, number>>(cacheKey, endpoint, 30 * 24 * 60 * 60 * 1000);
   }
 
-
   public getContributions(): Observable<Result<GithubContributions>> {
     const cacheKey = `contributions-data`;
     return this.getAndCache<GithubContributions>(cacheKey, this.ContributionsEndpoint, 24 * 60 * 60 * 1000, true);
   }
-
 
   public getCommitsForRepo(repoName: string): Observable<Result<readonly CommitDisplay[]>> {
     const cacheKey = `${this.CommitsEndpoint}-${repoName}`;
@@ -59,7 +55,6 @@ export class GithubService {
       })
     );
   }
-
 
   public getReposToBeShown(): Observable<Result<readonly GithubRepo[]>> {
     const cacheKey = this.ReposEndpoint;
@@ -114,7 +109,6 @@ export class GithubService {
     cacheDuration: number,
     useProxy = false
   ): Observable<Result<T>> {
-    console.log(endpoint);
     const cachedData = this.cache.get<T>(cacheKey);
     if (cachedData) {
       return of({ isSuccess: true, value: cachedData } as SuccessResult<T>);
@@ -133,21 +127,23 @@ export class GithubService {
     );
   }
 
-
   private fetchDataAndHandleErrors<T>(endpoint: string, useProxy: boolean): Observable<T> {
     const url = useProxy
-      ? `${this.ProxyApi}?url${endpoint}`
+      ? `${this.ProxyApi}?url=${endpoint}`
       : `${this.BaseAddress}/${endpoint}`;
-    return this.httpClient.get<{ data: T }>(url, {
+
+    return this.httpClient.get<{ data?: T } | T>(url, {
       observe: 'response'
     }).pipe(
 
       map(response => {
-        const data = (response.body as any)?.data !== undefined
-          ? (response.body as any).data
-          : response.body;
-        console.log(response.body);
-        if (!data) {
+        const body = response.body;
+        const data: T =
+          (body as { data?: T })?.data !== undefined
+            ? (body as { data?: T }).data as T
+            : body as T;
+
+        if (data === undefined || data === null) {
           throw new Error('Empty or invalid response body');
         }
         return data;
@@ -160,7 +156,7 @@ export class GithubService {
 
         if (isRateLimited && !useProxy) {
           console.warn('Rate limit exceeded. Falling back to proxy...');
-          return this.fetchDataAndHandleErrors(endpoint, true);
+          return this.fetchDataAndHandleErrors<T>(endpoint, true);
         } else {
           console.error('HTTP Error:', error);
           return throwError(() => new Error(`HTTP Error: ${error.status} - ${error.message}`));
