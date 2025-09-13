@@ -1,6 +1,6 @@
 import { Directive, effect, inject, input, TemplateRef, ViewContainerRef } from "@angular/core";
-import { Theme } from "./models/theme.model";
-import { ThemeService } from "./services/theme.service";
+import { ThemeService } from "../../services/theme.service";
+import { Theme } from "../../models/theme.model";
 
 @Directive(
   {

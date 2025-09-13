@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { ThemeService } from '../../services/theme.service';
-import { ThemeDirective } from '../../theme.directive';
 import { CommonModule } from '@angular/common';
+import { ThemeDirective } from '../../shared/directives/theme.directive';
 
 @Component({
   selector: 'app-header',
