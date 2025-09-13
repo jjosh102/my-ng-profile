@@ -2,6 +2,7 @@
 @import "tailwindcss";
 
 @custom-variant dark (&:where(.dark, .dark *));
+
 @utility hover-effect{
      @apply hover:border-blue-400 dark:hover:border-[#58a6ff]/50
            hover:shadow-md hover:shadow-blue-100 dark:hover:shadow-[#58a6ff]/10
