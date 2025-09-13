@@ -1,3 +1,10 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap");
 @import "tailwindcss";
 
 @custom-variant dark (&:where(.dark, .dark *));
+@utility hover-effect{
+     @apply hover:border-blue-400 dark:hover:border-[#58a6ff]/50
+           hover:shadow-md hover:shadow-blue-100 dark:hover:shadow-[#58a6ff]/10
+           transition-all duration-300
+           transform scale-100 hover:scale-102;
+  }

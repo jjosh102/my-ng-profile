@@ -1,11 +1,11 @@
 import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
 import { GithubService } from '../../services/github.service';
 import { GithubRepo } from '../../models/github.model';
-import { DatePipe } from '@angular/common';
+import { ProjectCard } from './project-card/project-card';
 
 @Component({
   selector: 'app-projects',
-  imports: [DatePipe],
+  imports: [ProjectCard],
   templateUrl: './projects.html',
   styleUrl: './projects.css'
 })

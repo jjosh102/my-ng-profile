@@ -65,6 +65,10 @@ export class GithubService {
           console.log(this.UserReposEndpoint);
           const repos = result.value
             .filter(t => t.topics.includes('show'))
+            .map(repo => ({
+              ...repo,
+              topics: repo.topics.filter(topic => topic.toLowerCase() !== 'show')
+            }))
             .sort((a, b) => new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime());
           return { isSuccess: true, value: repos } as SuccessResult<readonly GithubRepo[]>;
         }
