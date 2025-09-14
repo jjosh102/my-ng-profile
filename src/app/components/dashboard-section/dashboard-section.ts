@@ -1,23 +1,29 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, effect, inject, input, OnInit, signal } from '@angular/core';
 import { Projects } from "../projects/projects";
 import { Footer } from '../footer/footer';
+import { UserProfileCard } from './user-profile-card/user-profile-card';
+import { ThemeService } from '../../services/theme.service';
 
 @Component({
   selector: 'app-dashboard-section',
-  imports: [Projects, Footer],
+  imports: [Projects, UserProfileCard, Footer],
   templateUrl: './dashboard-section.html',
   styleUrl: './dashboard-section.css'
 })
-export class DashboardSection implements OnInit {
+export class DashboardSection  {
+  private themeService = inject(ThemeService);
+  private username = 'jjosh102';
 
-  username = 'jjosh102';
-  theme = 'chartreuse-dark';
+  public topLanguagesUrl = signal<string>('');
+  public githubStatsUrl = signal<string>('');
 
-  topLanguagesUrl: string | undefined;
-  githubStatsUrl: string | undefined;
+  constructor() {
+    effect(() => {
+      const currentTheme = this.themeService.theme();
+      const themeSuffix = `chartreuse-${currentTheme}`;
 
-  ngOnInit(): void {
-    this.topLanguagesUrl = `https://github-readme-stats.vercel.app/api/top-langs?username=${this.username}&count_private=true&show_icons=true&locale=en&layout=compact&theme=${this.theme}`;
-    this.githubStatsUrl = `https://github-readme-stats.vercel.app/api?username=${this.username}&count_private=true&show_icons=true&locale=en&theme=${this.theme}`;
+      this.topLanguagesUrl.set(`https://github-readme-stats.vercel.app/api/top-langs?username=${this.username}&count_private=true&show_icons=true&locale=en&layout=compact&theme=${themeSuffix}`);
+      this.githubStatsUrl.set(`https://github-readme-stats.vercel.app/api?username=${this.username}&count_private=true&show_icons=true&locale=en&theme=${themeSuffix}`);
+    });
   }
 }

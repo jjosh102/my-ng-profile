@@ -11,8 +11,5 @@ import { FormatTimeAgoPipe } from '../../../shared/pipes/format-time-ago-pipe';
   styleUrl: './project-card.css'
 })
 export class ProjectCard {
-
   repo = input.required<GithubRepo>();
-
-
 }
