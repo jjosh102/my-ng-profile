@@ -1,18 +1,21 @@
-<div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
-  <app-user-profile-card />
-  <div class="lg:col-span-3 space-y-4 sm:space-y-6">
+<section class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+  <aside>
+    <app-user-profile-card />
+  </aside>
+
+  <section class="lg:col-span-3 space-y-4 sm:space-y-6">
     <div
       class="p-3 sm:p-4 border border-gray-200 dark:border-[#30363d] rounded-lg bg-white dark:bg-transparent flex flex-col items-center justify-center">
       <img class="mb-4 mx-auto hover-effect" [src]="topLanguagesUrl()" alt="Top Languages" />
       <img class="mx-auto hover-effect" [src]="githubStatsUrl()" alt="GitHub Stats" />
     </div>
 
-    <div>
+    <article>
       <app-projects />
-    </div>
+    </article>
 
-    <div>
+    <footer>
       <app-footer />
-    </div>
-  </div>
-</div>
+    </footer>
+  </section>
+</section>

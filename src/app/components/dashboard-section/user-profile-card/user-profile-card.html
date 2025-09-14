@@ -1,8 +1,11 @@
-<div class="flex flex-col">
-  <div class="flex lg:flex-col items-start gap-4 lg:gap-0">
+<article class="flex flex-col">
+  <header class="flex lg:flex-col items-start gap-4 lg:gap-0">
     <div class="relative flex-shrink-0">
-      <img [src]="user.avatarUrl" alt="Profile Picture"
-        class="w-24 h-24 sm:w-32 sm:h-32 lg:w-full lg:h-auto rounded-full border-2 border-gray-200 dark:border-gray-700" />
+      <img
+        [src]="user.avatarUrl"
+        alt="Profile Picture of {{ user.name }}"
+        class="w-24 h-24 sm:w-32 sm:h-32 lg:w-full lg:h-auto rounded-full border-2 border-gray-200 dark:border-gray-700"
+      />
     </div>
 
     <div class="grow lg:mt-4">
@@ -11,27 +14,23 @@
         {{ user.bio }}
       </p>
     </div>
-  </div>
+  </header>
 
-  <div class="flex flex-wrap gap-2 mt-4 lg:mt-6">
-    <a [href]="user.githubUrl"
-      class="flex items-center text-xs sm:text-sm text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-[#58a6ff] gap-2">
+  <section class="flex flex-wrap gap-2 mt-4 lg:mt-6">
+    <a [href]="user.githubUrl" class="flex items-center text-xs sm:text-sm text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-[#58a6ff] gap-2">
       <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
-        <path
-          d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.11.82-.26.82-.577v-2.165c-3.338.726-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.757-1.333-1.757-1.09-.745.083-.73.083-.73 1.205.084 1.84 1.237 1.84 1.237 1.07 1.835 2.807 1.305 3.492.997.108-.774.42-1.305.763-1.605-2.665-.305-5.466-1.335-5.466-5.93 0-1.31.467-2.38 1.235-3.22-.123-.305-.535-1.53.117-3.18 0 0 1.008-.322 3.3 1.23.957-.266 1.98-.398 3-.403 1.02.005 2.043.137 3 .403 2.29-1.552 3.297-1.23 3.297-1.23.653 1.65.24 2.875.117 3.18.77.84 1.235 1.91 1.235 3.22 0 4.61-2.803 5.62-5.475 5.92.43.37.823 1.1.823 2.22v3.293c0 .32.217.694.825.577C20.565 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z" />
+        <path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.11.82-.26.82-.577v-2.165c-3.338.726-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.757-1.333-1.757-1.09-.745.083-.73.083-.73 1.205.084 1.84 1.237 1.84 1.237 1.07 1.835 2.807 1.305 3.492.997.108-.774.42-1.305.763-1.605-2.665-.305-5.466-1.335-5.466-5.93 0-1.31.467-2.38 1.235-3.22-.123-.305-.535-1.53.117-3.18 0 0 1.008-.322 3.3 1.23.957-.266 1.98-.398 3-.403 1.02.005 2.043.137 3 .403 2.29-1.552 3.297-1.23 3.297-1.23.653 1.65.24 2.875.117 3.18.77.84 1.235 1.91 1.235 3.22 0 4.61-2.803 5.62-5.475 5.92.43.37.823 1.1.823 2.22v3.293c0 .32.217.694.825.577C20.565 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z" />
       </svg>
       GitHub
     </a>
 
-    <a [href]="`mailto:${user.email}`"
-      class="flex items-center text-xs sm:text-sm text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-[#58a6ff] gap-2">
+    <a [href]="`mailto:${user.email}`" class="flex items-center text-xs sm:text-sm text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-[#58a6ff] gap-2">
       <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
-        <path
-          d="M12 12.713l11.985-7.99A1.5 1.5 0 0022.5 3h-21a1.5 1.5 0 00-1.485 1.723L12 12.713zM12 14.287L.015 6.297A1.5 1.5 0 000 7.5v9a1.5 1.5 0 001.5 1.5h21a1.5 1.5 0 001.5-1.5v-9a1.5 1.5 0 00-.015-.203L12 14.287z" />
+        <path d="M12 12.713l11.985-7.99A1.5 1.5 0 0022.5 3h-21a1.5 1.5 0 00-1.485 1.723L12 12.713zM12 14.287L.015 6.297A1.5 1.5 0 000 7.5v9a1.5 1.5 0 001.5 1.5h21a1.5 1.5 0 001.5-1.5v-9a1.5 1.5 0 00-.015-.203L12 14.287z" />
       </svg>
       Email
     </a>
-  </div>
+  </section>
 
-  <div class="border-t border-gray-200 dark:border-gray-700 pt-4 mt-4"></div>
-</div>
+  <hr class="border-t border-gray-200 dark:border-gray-700 pt-4 mt-4" />
+</article>
