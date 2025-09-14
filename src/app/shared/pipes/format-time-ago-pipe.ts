@@ -4,7 +4,11 @@ import { Pipe, PipeTransform } from '@angular/core';
   name: 'formatTimeAgo'
 })
 export class FormatTimeAgoPipe implements PipeTransform {
-  transform(lastModified: string | Date): string {
+  transform(lastModified: string | Date | undefined): string {
+
+    if (lastModified == undefined) {
+      return 'invalid';
+    }
     const date = typeof lastModified === 'string' ? new Date(lastModified) : lastModified;
     const now = new Date();
     const timeDifference = now.getTime() - date.getTime();
