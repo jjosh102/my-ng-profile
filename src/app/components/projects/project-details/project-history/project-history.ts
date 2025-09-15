@@ -6,7 +6,7 @@ import { FormatTimeAgoPipe } from '../../../../shared/pipes/format-time-ago-pipe
 
 @Component({
   selector: 'app-project-history',
-  imports: [CommonModule, FormatTimeAgoPipe ],
+  imports: [CommonModule, FormatTimeAgoPipe],
   templateUrl: './project-history.html',
   styleUrl: './project-history.css'
 })
@@ -39,10 +39,10 @@ export class ProjectHistory implements OnInit {
             this.commits.set(result.value);
           }
         },
-        complete: () => {
+        error: () => {
           this.isLoading.set(false);
         },
-        error: (error: Error) => {
+        complete: () => {
           this.isLoading.set(false);
         }
       },);

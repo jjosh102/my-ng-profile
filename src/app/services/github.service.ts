@@ -11,9 +11,9 @@ import { CommitDisplay, GithubCommit, GithubContributions, GithubRepo } from "..
 export class GithubService {
 
   private readonly BaseAddress = "https://api.github.com";
-  //private readonly ProxyBaseAddress = "https://obaki-core.onrender.com";
+  private readonly ProxyBaseAddress = "https://obaki-core.onrender.com";
   private readonly CommitsEndpoint = "commits";
-  private readonly CodeFrequencyEndpoint = "code-frequency";
+  private readonly CodeFrequencyEndpoint = "stats/code_frequency";
   private readonly LanguagesEndpoint = "languages";
   private readonly ProxyApi = "https://obaki-core.onrender.com/api/v1/github-proxy";
   private readonly ReposEndpoint = "repos";
@@ -32,7 +32,7 @@ export class GithubService {
 
   public getContributions(): Observable<Result<GithubContributions>> {
     const cacheKey = `contributions-data`;
-    return this.getAndCache<GithubContributions>(cacheKey, this.ContributionsEndpoint, 24 * 60 * 60 * 1000, true);
+    return this.getAndCache<GithubContributions>(this.ContributionsEndpoint, cacheKey, 24 * 60 * 60 * 1000, true);
   }
 
   public getCommitsForRepo(repoName: string): Observable<Result<readonly CommitDisplay[]>> {
@@ -62,7 +62,6 @@ export class GithubService {
     return this.getAndCache<readonly GithubRepo[]>(endpoint, cacheKey, 60 * 60 * 1000).pipe(
       map(result => {
         if (result.isSuccess && result.value) {
-          console.log(this.UserReposEndpoint);
           const repos = result.value
             .filter(t => t.topics.includes('show'))
             .map(repo => ({
@@ -133,7 +132,7 @@ export class GithubService {
 
   private fetchDataAndHandleErrors<T>(endpoint: string, useProxy: boolean): Observable<T> {
     const url = useProxy
-      ? `${this.ProxyApi}?url=${endpoint}`
+      ? `${this.ProxyBaseAddress}/${endpoint}`
       : `${this.BaseAddress}/${endpoint}`;
 
     return this.httpClient.get<{ data?: T } | T>(url, {
@@ -160,7 +159,8 @@ export class GithubService {
 
         if (isRateLimited && !useProxy) {
           console.warn('Rate limit exceeded. Falling back to proxy...');
-          return this.fetchDataAndHandleErrors<T>(endpoint, true);
+          const newEndpoint = `${this.ProxyApi}?url = ${endpoint}`;
+          return this.fetchDataAndHandleErrors<T>(newEndpoint, true);
         } else {
           console.error('HTTP Error:', error);
           return throwError(() => new Error(`HTTP Error: ${error.status} - ${error.message}`));

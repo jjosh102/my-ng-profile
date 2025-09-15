@@ -1,0 +1,27 @@
+<section class="p-4 border border-gray-200 dark:border-[#30363d] bg-white dark:bg-transparent shadow-sm rounded-lg">
+  <header class="mb-4">
+    <h2 class="text-md font-semibold text-gray-900 dark:text-gray-100">
+      {{ overallContributions() }} contributions this year
+    </h2>
+  </header>
+
+  <!-- @if (isLoading()) {
+  <figure class="my-4 flex justify-center items-center">
+    <div class="animate-pulse grid grid-cols-53 gap-[2px] w-full max-w-4xl">
+      @for (_ of [].constructor(53 * 7); track _) {
+      <div class="w-3 h-3 rounded-sm bg-gray-200 dark:bg-[#30363d]"></div>
+      }
+    </div>
+    <figcaption class="sr-only">
+      Loading contribution heatmap
+    </figcaption>
+  </figure>
+  } @else { -->
+  <figure class="my-4 flex justify-center items-center">
+    <canvas width="900" height="200" #heatMap></canvas>
+    <figcaption class="sr-only">
+      Heatmap showing contributions over the year
+    </figcaption>
+  </figure>
+  <!-- } -->
+</section>

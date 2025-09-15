@@ -25,10 +25,10 @@ export class Projects implements OnInit {
             this.repos.set(result.value);
           }
         },
-        complete: () => {
+        error: () => {
           this.isLoading.set(false);
         },
-        error: (error: Error) => {
+        complete: () => {
           this.isLoading.set(false);
         }
       },);

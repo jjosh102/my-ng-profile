@@ -7,6 +7,7 @@ import { FormatTimeAgoPipe } from '../../../shared/pipes/format-time-ago-pipe';
 import { DatePipe } from '@angular/common';
 import { LanguagesUsed } from './languages-used/languages-used';
 import { ProjectHistory } from './project-history/project-history';
+import { CodeFrequency } from '../../charts/code-frequency/code-frequency';
 
 @Component({
   selector: 'app-project-details',
