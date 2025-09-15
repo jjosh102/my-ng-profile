@@ -116,9 +116,11 @@
         </section>
       </div>
 
-      <!-- <app-languages-used />
-            <app-code-frequency-chart />
-            <app-project-history /> -->
+      @let repoName = repo()?.name || '';
+      <app-languages-used [repoName]="repoName" />
+      <app-project-history [repoName]="repoName" />
+      <!--     <app-code-frequency-chart />
+            -->
     </article>
     } @else {
 

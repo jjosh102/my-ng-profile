@@ -27,7 +27,7 @@ export class GithubService {
   public getLanguagesUsed(repoName: string): Observable<Result<Record<string, number>>> {
     const cacheKey = `${this.LanguagesEndpoint}-${repoName}`;
     const endpoint = `${this.RepoEndpoint}/${repoName}/${this.LanguagesEndpoint}`;
-    return this.getAndCache<Record<string, number>>(cacheKey, endpoint, 30 * 24 * 60 * 60 * 1000);
+    return this.getAndCache<Record<string, number>>(endpoint, cacheKey, 30 * 24 * 60 * 60 * 1000);
   }
 
   public getContributions(): Observable<Result<GithubContributions>> {
@@ -39,7 +39,7 @@ export class GithubService {
     const cacheKey = `${this.CommitsEndpoint}-${repoName}`;
     const endpoint = `${this.RepoEndpoint}/${repoName}/${this.CommitsEndpoint}`;
 
-    return this.getAndCache<readonly GithubCommit[]>(cacheKey, endpoint, 60 * 60 * 1000).pipe(
+    return this.getAndCache<readonly GithubCommit[]>(endpoint, cacheKey, 60 * 60 * 1000).pipe(
       map(result => {
         if (result.isSuccess && result.value) {
           const commits: readonly CommitDisplay[] = result.value.map(c => ({

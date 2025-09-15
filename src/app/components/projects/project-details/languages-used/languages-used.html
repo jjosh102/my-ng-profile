@@ -1,0 +1,24 @@
+  @if (languages()) {
+      <div class="my-4">
+        <h3 class="text-sm font-bold text-gray-900 dark:text-[#c9d1d9] mb-2">Languages Used</h3>
+        <div class="flex flex-wrap gap-2">
+          @for (language of languages() | keyvalue; track language.key) {
+            <div class="flex items-center space-x-1 text-gray-900 dark:text-[#c9d1d9]">
+              <span class="w-2 h-2 rounded-full" [style.background-color]="language.key | getLanguageColor"></span>
+              <span class="text-sm">{{ language.key }}</span>
+            </div>
+          }
+        </div>
+      </div>
+    } @else {
+      <div class="my-4 animate-pulse">
+        <div class="h-4 w-32 bg-gray-200 dark:bg-[#30363d] rounded mb-2"></div>
+        <div class="flex flex-wrap gap-2">
+          @for (_ of [1, 2, 3, 4]; track _) {
+            <div class="flex items-center space-x-1">
+              <div class="w-16 h-4 bg-gray-200 dark:bg-[#30363d] rounded"></div>
+            </div>
+          }
+        </div>
+      </div>
+    }

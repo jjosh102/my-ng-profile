@@ -18,7 +18,7 @@ export class Projects implements OnInit {
   isLoading = signal<boolean>(true);
 
   ngOnInit() {
-    const get = this.githubService.getReposToBeShown()
+    const subscription = this.githubService.getReposToBeShown()
       .subscribe({
         next: (result) => {
           if (result.isSuccess && result.value) {
@@ -34,7 +34,7 @@ export class Projects implements OnInit {
       },);
 
     this.destroyRef.onDestroy(() => {
-      get.unsubscribe();
+      subscription.unsubscribe();
     });
   }
 

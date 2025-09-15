@@ -1,0 +1,56 @@
+<section class="my-4 mx-auto max-w-2xl px-4">
+  <h2 class="text-sm font-bold text-gray-900 dark:text-[#c9d1d9] mb-2">Project History</h2>
+  <article class="space-y-6">
+    @if (isLoading()) {
+      <ul class="space-y-4">
+        @for (_ of [1, 2, 3]; track _) {
+          <li class="bg-white dark:bg-[#0D1117] border border-gray-200 dark:border-[#30363d] shadow-sm rounded-lg p-4">
+            <div class="animate-pulse flex space-x-4">
+              <span class="rounded-full bg-gray-200 dark:bg-[#30363d] h-10 w-10"></span>
+              <div class="flex-1 space-y-2">
+                <span class="block h-4 bg-gray-200 dark:bg-[#30363d] rounded-sm w-3/4"></span>
+                <span class="block h-4 bg-gray-200 dark:bg-[#30363d] rounded"></span>
+                <span class="block h-4 bg-gray-200 dark:bg-[#30363d] rounded-sm w-1/2"></span>
+              </div>
+            </div>
+          </li>
+        }
+      </ul>
+    } @else if (visibleCommits().length > 0) {
+      <ul class="space-y-4">
+        @for (commit of visibleCommits(); track commit.commitUrl) {
+          <li class="bg-white dark:bg-[#0D1117] border border-gray-200 dark:border-[#30363d] shadow-sm rounded-lg p-4">
+            <header class="flex flex-col md:flex-row justify-between items-start space-y-3 md:space-y-0">
+              <div class="flex items-center space-x-3">
+                <img class="w-8 h-8 rounded-full" [src]="commit?.authorAvatarUrl" [alt]="commit.authorName" />
+                <div>
+                  <p class="text-sm font-semibold text-gray-900 dark:text-[#c9d1d9]">{{ commit?.authorName }}</p>
+                  <time class="text-xs text-gray-600 dark:text-gray-400">
+                    {{ commit.commitDate| formatTimeAgo }}
+                  </time>
+                </div>
+              </div>
+              <a [href]="commit.commitUrl" target="_blank" rel="noopener noreferrer"
+                class="text-sm text-blue-600 dark:text-[#58a6ff] hover:underline whitespace-nowrap">
+                View Commit
+              </a>
+            </header>
+            <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">{{ commit.message }}</p>
+          </li>
+        }
+        @if (commits().length > 5) {
+          <li>
+            <button (click)="toggleExpand()"
+              class="w-full bg-gray-100 dark:bg-[#21262d] text-gray-900 dark:text-[#c9d1d9] border border-gray-200 dark:border-[#30363d] px-4 py-2 rounded-md hover:bg-gray-200 dark:hover:bg-[#30363d] transition-colors duration-200">
+              {{ showAll() ? "Show Less" : "Show More" }}
+            </button>
+          </li>
+        }
+      </ul>
+    } @else {
+      <p class="bg-white dark:bg-[#161b22] border border-gray-200 dark:border-[#30363d] shadow-sm rounded-lg p-4 text-center text-red-600 dark:text-[#cf222e]">
+        No commits found for this repository.
+      </p>
+    }
+  </article>
+</section>
