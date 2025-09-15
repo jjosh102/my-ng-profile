@@ -26,5 +26,5 @@ jobs:
       - name: Build Angular app
         run: npm run build -- --configuration production --base-href=/my-ng-profile/
 
-      - name: Deploy to GH Pages
-        run: npx angular-cli-ghpages --dir=dist/my-ng-profile/browser
+      - name: Deploy to GitHub Pages
+        run: npx angular-cli-ghpages --dir=dist/my-ng-profile --repo=https://x-access-token:${{ secrets.PUBLISH_TOKEN }}@github.com/${{ github.repository }}.git
