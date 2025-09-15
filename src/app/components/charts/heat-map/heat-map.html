@@ -5,10 +5,10 @@
     </h2>
   </header>
 
-  <!-- @if (isLoading()) {
-  <figure class="my-4 flex justify-center items-center">
+
+  <figure *appLoading="isLoading()" class="my-4 flex justify-center items-center">
     <div class="animate-pulse grid grid-cols-53 gap-[2px] w-full max-w-4xl">
-      @for (_ of [].constructor(53 * 7); track _) {
+      @for (item of [].constructor(52 * 7); track $index) {
       <div class="w-3 h-3 rounded-sm bg-gray-200 dark:bg-[#30363d]"></div>
       }
     </div>
@@ -16,12 +16,12 @@
       Loading contribution heatmap
     </figcaption>
   </figure>
-  } @else { -->
-  <figure class="my-4 flex justify-center items-center">
+
+  <figure [class.hidden]="isLoading()" class="my-4 flex justify-center items-center">
     <canvas width="900" height="200" #heatMap></canvas>
     <figcaption class="sr-only">
       Heatmap showing contributions over the year
     </figcaption>
   </figure>
-  <!-- } -->
+
 </section>

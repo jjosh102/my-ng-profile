@@ -20,6 +20,7 @@ export class GithubService {
   private readonly UserReposEndpoint = "users/jjosh102/repos";
   private readonly RepoEndpoint = "repos/jjosh102";
   private readonly ContributionsEndpoint = "api/v1/github-contributions";
+  private readonly cacheOneHourDuration = 60 * 60 * 1000;
 
   private httpClient = inject(HttpClient);
   private cache = inject(LocalStorageCacheService);
@@ -27,19 +28,25 @@ export class GithubService {
   public getLanguagesUsed(repoName: string): Observable<Result<Record<string, number>>> {
     const cacheKey = `${this.LanguagesEndpoint}-${repoName}`;
     const endpoint = `${this.RepoEndpoint}/${repoName}/${this.LanguagesEndpoint}`;
-    return this.getAndCache<Record<string, number>>(endpoint, cacheKey, 30 * 24 * 60 * 60 * 1000);
+    return this.getAndCache<Record<string, number>>(endpoint, cacheKey, 30 * 24 * this.cacheOneHourDuration);
   }
 
   public getContributions(): Observable<Result<GithubContributions>> {
-    const cacheKey = `contributions-data`;
-    return this.getAndCache<GithubContributions>(this.ContributionsEndpoint, cacheKey, 24 * 60 * 60 * 1000, true);
+    const endpoint = `${this.ProxyBaseAddress}/${this.ContributionsEndpoint}`;
+    return this.httpClient.get<{ data?: GithubContributions }>(endpoint, {
+      observe: 'response'
+    }).pipe(
+      map(response => {
+        const body = response.body
+        return { isSuccess: true, value: body } as SuccessResult<GithubContributions>;
+      }));
   }
 
   public getCommitsForRepo(repoName: string): Observable<Result<readonly CommitDisplay[]>> {
     const cacheKey = `${this.CommitsEndpoint}-${repoName}`;
     const endpoint = `${this.RepoEndpoint}/${repoName}/${this.CommitsEndpoint}`;
 
-    return this.getAndCache<readonly GithubCommit[]>(endpoint, cacheKey, 60 * 60 * 1000).pipe(
+    return this.getAndCache<readonly GithubCommit[]>(endpoint, cacheKey, this.cacheOneHourDuration).pipe(
       map(result => {
         if (result.isSuccess && result.value) {
           const commits: readonly CommitDisplay[] = result.value.map(c => ({
@@ -59,7 +66,7 @@ export class GithubService {
   public getReposToBeShown(): Observable<Result<readonly GithubRepo[]>> {
     const cacheKey = this.ReposEndpoint;
     const endpoint = this.UserReposEndpoint;
-    return this.getAndCache<readonly GithubRepo[]>(endpoint, cacheKey, 60 * 60 * 1000).pipe(
+    return this.getAndCache<readonly GithubRepo[]>(endpoint, cacheKey, this.cacheOneHourDuration).pipe(
       map(result => {
         if (result.isSuccess && result.value) {
           const repos = result.value
@@ -82,7 +89,7 @@ export class GithubService {
     const maxRetries = 5;
     const baseDelayMs = 3000;
 
-    return this.getAndCache<readonly number[][]>(endpoint, cacheKey, 3600000).pipe(
+    return this.getAndCache<readonly number[][]>(endpoint, cacheKey, this.cacheOneHourDuration).pipe(
       tap(result => {
         if (result.isSuccess && !result.value) {
           throw new Error('Received an empty value, retrying...');

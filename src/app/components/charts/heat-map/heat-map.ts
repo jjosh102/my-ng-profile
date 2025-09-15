@@ -9,7 +9,7 @@ import {
   AfterViewInit,
 } from '@angular/core';
 import { GithubService } from '../../../services/github.service';
-import { Contribution } from '../../../models/github.model';
+import { GithubContributions } from '../../../models/github.model';
 import {
   Chart,
   ChartConfiguration,
@@ -19,10 +19,13 @@ import {
   Legend,
 } from 'chart.js';
 import { MatrixController, MatrixElement } from 'chartjs-chart-matrix';
+import { LoadingDirective } from '../../../shared/directives/loading.directive';
 
 @Component({
   selector: 'app-heat-map',
   templateUrl: './heat-map.html',
+  standalone: true,
+  imports: [LoadingDirective]
 })
 export class HeatMap implements AfterViewInit {
   private githubService = inject(GithubService);
@@ -36,8 +39,9 @@ export class HeatMap implements AfterViewInit {
     const subscription = this.githubService.getContributions().subscribe({
       next: (result) => {
         if (result.isSuccess && result.value) {
-          const contribs = result.value.contributions;
-          const total = contribs
+          const contribs = result.value;
+          console.log(contribs);
+          const total = contribs.contributions
             .filter((c) => new Date(c.date).getFullYear() === new Date().getFullYear())
             .reduce((sum, c) => sum + c.contributionCount, 0);
 
@@ -56,7 +60,7 @@ export class HeatMap implements AfterViewInit {
     this.destroyRef.onDestroy(() => subscription.unsubscribe());
   }
 
-  private renderHeatmap(contribs: Contribution[]) {
+  private renderHeatmap(contribs: GithubContributions) {
     if (!this.heatmapCanvas) return;
     const canvas = this.heatmapCanvas()!.nativeElement;
     const ctx = canvas.getContext('2d');
@@ -71,8 +75,8 @@ export class HeatMap implements AfterViewInit {
       Legend
     );
 
-    const dates = contribs.map(c => c.date);
-    const counts = contribs.map(c => c.contributionCount);
+    const dates = contribs.contributions.map(c => c.date);
+    const counts = contribs.contributions.map(c => c.contributionCount);
 
     const startDate = new Date(dates[0]);
     const endDate = new Date(dates[dates.length - 1]);
@@ -179,7 +183,6 @@ export class HeatMap implements AfterViewInit {
           max: totalWeeks - 0.5,
           grid: { display: false },
           ticks: {
-            color: '#7D8590',
             maxRotation: 0,
             autoSkip: false,
             padding: 8,
@@ -192,22 +195,26 @@ export class HeatMap implements AfterViewInit {
               return date.toLocaleString('en-US', { month: 'short' });
             },
           },
+          border: {
+            display: false
+          }
         },
         y: {
-          display: true,
           offset: false,
           min: -0.5,
           max: 6.5,
           position: 'left',
           grid: { display: false },
           ticks: {
-            color: '#7D8590',
             padding: 8,
             font: {
               size: 11,
             },
             callback: (value: any) => ['Mon', '', 'Wed', '', 'Fri', '', ''][value],
           },
+          border: {
+            display: false
+          }
         },
       },
       responsive: true,
