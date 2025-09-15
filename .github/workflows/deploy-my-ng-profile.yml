@@ -24,7 +24,7 @@ jobs:
         run: npm ci
 
       - name: Build Angular app
-        run: npm run build -- --output-path=dist/my-ng-profile --base-href=/my-ng-profile/
+        run: npm run build -- --configuration production --base-href=/my-ng-profile/
 
       - name: Deploy to GH Pages
-        run: npx angular-cli-ghpages --dir=dist/my-ng-profile
+        run: npx angular-cli-ghpages --dir=dist/my-ng-profile/browser
