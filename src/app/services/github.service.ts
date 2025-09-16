@@ -15,7 +15,7 @@ export class GithubService {
   private readonly CommitsEndpoint = "commits";
   private readonly CodeFrequencyEndpoint = "stats/code_frequency";
   private readonly LanguagesEndpoint = "languages";
-  private readonly ProxyApi = "https://obaki-core.onrender.com/api/v1/github-proxy";
+  private readonly ProxyEndpoint = "https://obaki-core.onrender.com/api/v1/github-proxy?url=";
   private readonly ReposEndpoint = "repos";
   private readonly UserReposEndpoint = "users/jjosh102/repos";
   private readonly RepoEndpoint = "repos/jjosh102";
@@ -138,11 +138,11 @@ export class GithubService {
   }
 
   private fetchDataAndHandleErrors<T>(endpoint: string, useProxy: boolean): Observable<T> {
-    const url = useProxy
-      ? `${this.ProxyBaseAddress}/${endpoint}`
+    const requestUrl = useProxy
+      ? `${this.ProxyEndpoint}${this.BaseAddress}${endpoint}`
       : `${this.BaseAddress}/${endpoint}`;
 
-    return this.httpClient.get<{ data?: T } | T>(url, {
+    return this.httpClient.get<{ data?: T } | T>(requestUrl, {
       observe: 'response'
     }).pipe(
 
@@ -166,8 +166,7 @@ export class GithubService {
 
         if (isRateLimited && !useProxy) {
           console.warn('Rate limit exceeded. Falling back to proxy...');
-          const newEndpoint = `${this.ProxyApi}?url = ${endpoint}`;
-          return this.fetchDataAndHandleErrors<T>(newEndpoint, true);
+          return this.fetchDataAndHandleErrors<T>(requestUrl, true);
         } else {
           console.error('HTTP Error:', error);
           return throwError(() => new Error(`HTTP Error: ${error.status} - ${error.message}`));
