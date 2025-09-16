@@ -9,7 +9,7 @@ import {
   AfterViewInit,
 } from '@angular/core';
 import { GithubService } from '../../../services/github.service';
-import { GithubContributions } from '../../../models/github.model';
+import { Contribution, GithubContributions } from '../../../models/github.model';
 import {
   Chart,
   ChartConfiguration,
@@ -30,6 +30,7 @@ import { LoadingDirective } from '../../../shared/directives/loading.directive';
 export class HeatMap implements AfterViewInit {
   private githubService = inject(GithubService);
   private destroyRef = inject(DestroyRef);
+  private chart?: Chart;
 
   heatmapCanvas = viewChild<ElementRef<HTMLCanvasElement>>('heatMap');
   overallContributions = signal<number>(0);
@@ -39,15 +40,14 @@ export class HeatMap implements AfterViewInit {
     const subscription = this.githubService.getContributions().subscribe({
       next: (result) => {
         if (result.isSuccess && result.value) {
-          const contribs = result.value;
-          console.log(contribs);
-          const total = contribs.contributions
+          const contributions = result.value;
+          const total = contributions
             .filter((c) => new Date(c.date).getFullYear() === new Date().getFullYear())
             .reduce((sum, c) => sum + c.contributionCount, 0);
 
           this.overallContributions.set(total);
           if (this.heatmapCanvas()) {
-            this.renderHeatmap(contribs);
+            this.renderHeatmap(contributions);
           }
           this.isLoading.set(false);
 
@@ -60,12 +60,16 @@ export class HeatMap implements AfterViewInit {
     this.destroyRef.onDestroy(() => subscription.unsubscribe());
   }
 
-  private renderHeatmap(contribs: GithubContributions) {
+  private renderHeatmap(contributions: readonly Contribution[]) {
+    console.log(contributions);
     if (!this.heatmapCanvas) return;
     const canvas = this.heatmapCanvas()!.nativeElement;
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
+    if (this.chart) {
+      this.chart.destroy();
+    }
     Chart.register(
       MatrixController,
       MatrixElement,
@@ -75,8 +79,9 @@ export class HeatMap implements AfterViewInit {
       Legend
     );
 
-    const dates = contribs.contributions.map(c => c.date);
-    const counts = contribs.contributions.map(c => c.contributionCount);
+
+    const dates = contributions.map(c => c.date);
+    const counts = contributions.map(c => c.contributionCount);
 
     const startDate = new Date(dates[0]);
     const endDate = new Date(dates[dates.length - 1]);
@@ -223,6 +228,9 @@ export class HeatMap implements AfterViewInit {
       }
     };
 
-    new Chart(ctx, { type: 'matrix', data, options });
+    // This is to catch up with cache data since it is instantly returned
+    Promise.resolve().then(() => {
+      this.chart = new Chart(ctx, { type: 'matrix', data, options });
+    });
   }
 }

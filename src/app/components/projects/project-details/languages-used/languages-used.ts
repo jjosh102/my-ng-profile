@@ -7,7 +7,6 @@ import { KeyValuePipe } from '@angular/common';
   selector: 'app-languages-used',
   imports: [GetLanguageColorPipe, KeyValuePipe],
   templateUrl: './languages-used.html',
-  styleUrl: './languages-used.css'
 })
 export class LanguagesUsed implements OnInit {
   private githubService = inject(GithubService);

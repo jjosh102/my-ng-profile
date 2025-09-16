@@ -8,7 +8,6 @@ import { ProjectCardSkeleton } from "./project-card-skeleton/project-card-skelet
   selector: 'app-projects',
   imports: [ProjectCard, ProjectCardSkeleton],
   templateUrl: './projects.html',
-  styleUrl: './projects.css'
 })
 export class Projects implements OnInit {
 

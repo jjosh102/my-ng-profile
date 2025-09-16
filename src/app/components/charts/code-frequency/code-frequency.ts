@@ -5,8 +5,7 @@ import { Chart, ChartConfiguration } from 'chart.js';
 @Component({
   selector: 'app-code-frequency',
   imports: [],
-  templateUrl: './code-frequency.html',
-  styleUrl: './code-frequency.css'
+  templateUrl: './code-frequency.html'
 })
 
 export class CodeFrequency implements OnInit {

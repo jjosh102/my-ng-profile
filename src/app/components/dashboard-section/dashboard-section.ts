@@ -9,7 +9,6 @@ import { HeatMap } from "../charts/heat-map/heat-map";
   selector: 'app-dashboard-section',
   imports: [Projects, UserProfileCard, Footer, HeatMap],
   templateUrl: './dashboard-section.html',
-  styleUrl: './dashboard-section.css'
 })
 export class DashboardSection  {
   private themeService = inject(ThemeService);

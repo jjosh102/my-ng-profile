@@ -8,7 +8,6 @@ import { FormatTimeAgoPipe } from '../../../../shared/pipes/format-time-ago-pipe
   selector: 'app-project-history',
   imports: [CommonModule, FormatTimeAgoPipe],
   templateUrl: './project-history.html',
-  styleUrl: './project-history.css'
 })
 export class ProjectHistory implements OnInit {
   private githubService = inject(GithubService);

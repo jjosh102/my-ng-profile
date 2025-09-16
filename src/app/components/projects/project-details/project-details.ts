@@ -8,6 +8,7 @@ import { DatePipe } from '@angular/common';
 import { LanguagesUsed } from './languages-used/languages-used';
 import { ProjectHistory } from './project-history/project-history';
 import { CodeFrequency } from '../../charts/code-frequency/code-frequency';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-project-details',
@@ -17,9 +18,9 @@ import { CodeFrequency } from '../../charts/code-frequency/code-frequency';
     FormatSizePipe,
     FormatTimeAgoPipe,
     DatePipe,
-    ProjectHistory],
+    ProjectHistory,
+    RouterLink],
   templateUrl: './project-details.html',
-  styleUrl: './project-details.css'
 })
 export class ProjectDetails implements OnInit {
   private githubService = inject(GithubService);

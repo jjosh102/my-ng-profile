@@ -3,8 +3,7 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-user-profile-card',
   imports: [],
-  templateUrl: './user-profile-card.html',
-  styleUrl: './user-profile-card.css'
+  templateUrl: './user-profile-card.html'
 })
 export class UserProfileCard {
   user = {

@@ -3,7 +3,7 @@ import { inject, Injectable } from "@angular/core";
 import { catchError, map, mergeMap, Observable, of, retry, retryWhen, tap, throwError, timer } from "rxjs";
 import { FailureResult, Result, SuccessResult } from "../models/result.model";
 import { LocalStorageCacheService } from "./localStorage.service";
-import { CommitDisplay, GithubCommit, GithubContributions, GithubRepo } from "../models/github.model";
+import { CommitDisplay, Contribution, GithubCommit, GithubContributions, GithubRepo } from "../models/github.model";
 
 @Injectable({
   providedIn: 'root',
@@ -31,15 +31,23 @@ export class GithubService {
     return this.getAndCache<Record<string, number>>(endpoint, cacheKey, 30 * 24 * this.cacheOneHourDuration);
   }
 
-  public getContributions(): Observable<Result<GithubContributions>> {
+  public getContributions(): Observable<Result<readonly Contribution[]>> {
+    const cacheKey = 'contributions';
     const endpoint = `${this.ProxyBaseAddress}/${this.ContributionsEndpoint}`;
-    return this.httpClient.get<{ data?: GithubContributions }>(endpoint, {
-      observe: 'response'
-    }).pipe(
-      map(response => {
-        const body = response.body
-        return { isSuccess: true, value: body } as SuccessResult<GithubContributions>;
-      }));
+
+
+    return this.getAndCache<GithubContributions>(endpoint, cacheKey, this.cacheOneHourDuration, true).pipe(
+      map(result => {
+        if (result.isSuccess && result.value?.contributions) {
+          const contributions: readonly Contribution[] = result.value.contributions.map(c => ({
+            date: new Date(c.date).toISOString(),
+            contributionCount: Number(c.contributionCount)
+          }));
+          return { isSuccess: true, value: contributions } as SuccessResult<readonly Contribution[]>;
+        }
+        return { isSuccess: false, error: 'Failed to fetch contributions.' } as FailureResult;
+      })
+    );
   }
 
   public getCommitsForRepo(repoName: string): Observable<Result<readonly CommitDisplay[]>> {
@@ -117,14 +125,14 @@ export class GithubService {
     endpoint: string,
     cacheKey: string,
     cacheDuration: number,
-    useProxy = false
+    isCustomUrl = false
   ): Observable<Result<T>> {
     const cachedData = this.cache.get<T>(cacheKey);
     if (cachedData) {
       return of({ isSuccess: true, value: cachedData } as SuccessResult<T>);
     }
 
-    return this.fetchDataAndHandleErrors<T>(endpoint, useProxy).pipe(
+    return this.fetchDataAndHandleErrors<T>(endpoint, isCustomUrl).pipe(
       tap(data => {
         this.cache.set(cacheKey, data, cacheDuration);
       }),
@@ -137,9 +145,9 @@ export class GithubService {
     );
   }
 
-  private fetchDataAndHandleErrors<T>(endpoint: string, useProxy: boolean): Observable<T> {
-    const requestUrl = useProxy
-      ? `${this.ProxyEndpoint}${this.BaseAddress}${endpoint}`
+  private fetchDataAndHandleErrors<T>(endpoint: string, isCustomUrl = false): Observable<T> {
+    const requestUrl = isCustomUrl
+      ? endpoint
       : `${this.BaseAddress}/${endpoint}`;
 
     return this.httpClient.get<{ data?: T } | T>(requestUrl, {
@@ -164,9 +172,10 @@ export class GithubService {
           error.headers.has('X-RateLimit-Remaining') &&
           error.headers.get('X-RateLimit-Remaining') === '0';
 
-        if (isRateLimited && !useProxy) {
+        if (isRateLimited) {
           console.warn('Rate limit exceeded. Falling back to proxy...');
-          return this.fetchDataAndHandleErrors<T>(requestUrl, true);
+          const proxyUrl = `${this.ProxyEndpoint}${this.BaseAddress}${endpoint}`;
+          return this.fetchDataAndHandleErrors<T>(proxyUrl, true);
         } else {
           console.error('HTTP Error:', error);
           return throwError(() => new Error(`HTTP Error: ${error.status} - ${error.message}`));
