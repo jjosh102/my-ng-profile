@@ -228,7 +228,7 @@ export class HeatMap implements AfterViewInit {
       }
     };
 
-    // This is to catch up with cache data since it is instantly returned
+    //Race condition :  This is to catch up with cache data since it is instantly returned
     Promise.resolve().then(() => {
       this.chart = new Chart(ctx, { type: 'matrix', data, options });
     });

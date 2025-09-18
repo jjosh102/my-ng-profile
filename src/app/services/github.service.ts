@@ -3,20 +3,21 @@ import { inject, Injectable } from "@angular/core";
 import { catchError, map, mergeMap, Observable, of, retry, retryWhen, tap, throwError, timer } from "rxjs";
 import { FailureResult, Result, SuccessResult } from "../models/result.model";
 import { LocalStorageCacheService } from "./localStorage.service";
-import { CommitDisplay, Contribution, GithubCommit, GithubContributions, GithubRepo } from "../models/github.model";
+import { CommitDisplay, Contribution, GithubCommit, GithubContributions, GithubRepo, GithubRepoStats } from "../models/github.model";
 
 @Injectable({
   providedIn: 'root',
 })
 export class GithubService {
 
+  // todo: clean up
   private readonly BaseAddress = "https://api.github.com";
   private readonly ProxyBaseAddress = "https://obaki-core.onrender.com";
   private readonly CommitsEndpoint = "commits";
   private readonly CodeFrequencyEndpoint = "stats/code_frequency";
   private readonly LanguagesEndpoint = "languages";
   private readonly ProxyEndpoint = "https://obaki-core.onrender.com/api/v1/github-proxy?url=";
-  private readonly ReposEndpoint = "repos";
+
   private readonly UserReposEndpoint = "users/jjosh102/repos";
   private readonly RepoEndpoint = "repos/jjosh102";
   private readonly ContributionsEndpoint = "api/v1/github-contributions";
@@ -72,9 +73,8 @@ export class GithubService {
   }
 
   public getReposToBeShown(): Observable<Result<readonly GithubRepo[]>> {
-    const cacheKey = this.ReposEndpoint;
     const endpoint = this.UserReposEndpoint;
-    return this.getAndCache<readonly GithubRepo[]>(endpoint, cacheKey, this.cacheOneHourDuration).pipe(
+    return this.getAndCache<readonly GithubRepo[]>(endpoint, "repos", this.cacheOneHourDuration).pipe(
       map(result => {
         if (result.isSuccess && result.value) {
           const repos = result.value
@@ -87,6 +87,45 @@ export class GithubService {
           return { isSuccess: true, value: repos } as SuccessResult<readonly GithubRepo[]>;
         }
         return { isSuccess: false, error: 'Failed to fetch repositories.' } as FailureResult;
+      })
+    );
+  }
+
+  public getRepoStats(): Observable<Result<GithubRepoStats>> {
+    const endpoint = this.UserReposEndpoint;
+    return this.getAndCache<readonly GithubRepo[]>(endpoint, "repo-stats", 7 * 24 * this.cacheOneHourDuration).pipe(
+      map(result => {
+        if (!result.isSuccess || !result.value) {
+          return { isSuccess: false, error: "Failed to fetch repositories." } as FailureResult;
+        }
+
+        const repos = result.value;
+
+        const totalStars = repos.reduce((acc, r) => acc + r.stargazers_count, 0);
+        const totalForks = repos.reduce((acc, r) => acc + r.forks_count, 0);
+        const totalWatchers = repos.reduce((acc, r) => acc + r.watchers_count, 0);
+        const totalOpenIssues = repos.reduce((acc, r) => acc + r.open_issues_count, 0);
+
+        const topLanguages = Object.entries(
+          repos.reduce<Record<string, number>>((map, r) => {
+            if (r.language) {
+              map[r.language] = (map[r.language] || 0) + 1;
+            }
+            return map;
+          }, {}))
+          .sort((a, b) => b[1] - a[1])
+          .slice(0, 10)
+          .map(([name, count]) => ({ name, count }));
+
+        const stats: GithubRepoStats = {
+          topLanguages,
+          totalStars,
+          totalForks,
+          totalWatchers,
+          totalOpenIssues
+        };
+
+        return { isSuccess: true, value: stats } as SuccessResult<GithubRepoStats>;
       })
     );
   }

@@ -1,0 +1,55 @@
+<span class="text-md text-gray-900 dark:text-gray-100">Overview</span>
+<section
+  class="w-full border border-gray-200 dark:border-[#30363d] bg-white dark:bg-transparent rounded-lg p-4 shadow-sm mt-4">
+  <div class="mb-3">
+    <ul class="flex flex-wrap gap-2">
+      @for (lang of stats()?.topLanguages; track lang.name) {
+      <li
+        class="flex items-center text-xs text-gray-700 dark:text-gray-300 px-2 py-0.5 rounded-md bg-gray-50 dark:bg-[#161b22]">
+        <span class="w-2.5 h-2.5 rounded-full mr-1.5"
+          [style.background-color]="lang.name | getLanguageColor"></span>
+        {{ lang.name }}
+      </li>
+      }
+    </ul>
+  </div>
+
+  <hr class="border-gray-200 dark:border-[#30363d] my-3" />
+
+  <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs text-gray-600 dark:text-gray-400">
+    <div class="flex items-center">
+      <svg class="w-4 h-4 text-yellow-500 mr-1.5" fill="currentColor" viewBox="0 0 16 16">
+        <path
+          d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.751.751 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Z">
+        </path>
+      </svg>
+      <span>{{ stats()?.totalStars }} Stars</span>
+    </div>
+
+    <div class="flex items-center">
+      <svg class="w-4 h-4 text-blue-500 mr-1.5" fill="currentColor" viewBox="0 0 20 20">
+        <path fill-rule="evenodd"
+          d="M5 2a3 3 0 00-3 3v3h1a2 2 0 110 4H2v3a3 3 0 003 3h3v-1a2 2 0 114 0v1h3a3 3 0 003-3v-3h-1a2 2 0 110-4h1V5a3 3 0 00-3-3h-3v1a2 2 0 11-4 0V2H5z"
+          clip-rule="evenodd" />
+      </svg>
+      <span>{{ stats()?.totalForks }} Forks</span>
+    </div>
+
+    <div class="flex items-center">
+      <svg class="w-4 h-4 text-green-500 mr-1.5" fill="currentColor" viewBox="0 0 20 20">
+        <path
+          d="M10 2a6 6 0 016 6c0 4.418-6 10-6 10S4 12.418 4 8a6 6 0 016-6zm0 8a2 2 0 100-4 2 2 0 000 4z" />
+      </svg>
+      <span>{{ stats()?.totalWatchers }} Watchers</span>
+    </div>
+
+    <div class="flex items-center">
+      <svg class="w-4 h-4 text-red-500 mr-1.5" fill="currentColor" viewBox="0 0 20 20">
+        <path fill-rule="evenodd"
+          d="M18 13a1 1 0 01-1 1H7.414l3.293 3.293a1 1 0 01-1.414 1.414l-5-5a1 1 0 010-1.414l5-5a1 1 0 011.414 1.414L7.414 12H17a1 1 0 011 1z"
+          clip-rule="evenodd" />
+      </svg>
+      <span>{{ stats()?.totalOpenIssues }} Issues</span>
+    </div>
+  </div>
+</section>

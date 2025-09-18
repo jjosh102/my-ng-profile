@@ -194,3 +194,11 @@ export interface GithubRepo {
   network_count: number;
   subscribers_count: number;
 }
+
+export interface GithubRepoStats {
+  topLanguages: { name: string; count: number }[];
+  totalStars: number;
+  totalForks: number;
+  totalWatchers: number;
+  totalOpenIssues: number;
+}

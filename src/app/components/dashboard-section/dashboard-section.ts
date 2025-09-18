@@ -4,10 +4,11 @@ import { Footer } from '../footer/footer';
 import { UserProfileCard } from './user-profile-card/user-profile-card';
 import { ThemeService } from '../../services/theme.service';
 import { HeatMap } from "../charts/heat-map/heat-map";
+import { Stats } from "../stats/stats";
 
 @Component({
   selector: 'app-dashboard-section',
-  imports: [Projects, UserProfileCard, Footer, HeatMap],
+  imports: [Projects, UserProfileCard, Footer, HeatMap, Stats],
   templateUrl: './dashboard-section.html',
 })
 export class DashboardSection  {
