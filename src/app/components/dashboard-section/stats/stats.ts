@@ -1,11 +1,12 @@
 import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
-import { GithubService } from '../../services/github.service';
-import { GithubRepoStats } from '../../models/github.model';
-import { GetLanguageColorPipe } from '../../shared/pipes/get-language-color-pipe';
+import { GetLanguageColorPipe } from '../../../shared/pipes/get-language-color-pipe';
+import { GithubService } from '../../../services/github.service';
+import { GithubRepoStats } from '../../../models/github.model';
+import { NgStyle } from '@angular/common';
 
 @Component({
   selector: 'app-stats',
-  imports: [GetLanguageColorPipe],
+  imports: [GetLanguageColorPipe, NgStyle],
   templateUrl: './stats.html',
 })
 export class Stats implements OnInit {
@@ -14,6 +15,7 @@ export class Stats implements OnInit {
   private destroyRef = inject(DestroyRef);
   stats = signal<GithubRepoStats | null>(null);
   isLoading = signal<boolean>(true);
+  hoveredItem: any | null = null;
 
   ngOnInit() {
     const subscription = this.githubService.getRepoStats()

@@ -3,7 +3,8 @@ import { Projects } from "../projects/projects";
 import { Footer } from '../footer/footer';
 import { UserProfileCard } from './user-profile-card/user-profile-card';
 import { HeatMap } from "../charts/heat-map/heat-map";
-import { Stats } from "../stats/stats";
+import { Stats } from './stats/stats';
+
 
 @Component({
   selector: 'app-dashboard-section',

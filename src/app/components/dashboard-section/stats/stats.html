@@ -4,10 +4,15 @@
   <div class="mb-3">
     <ul class="flex flex-wrap gap-2">
       @for (lang of stats()?.topLanguages; track lang.name) {
+      @let languageColor =(lang.name | getLanguageColor) || '';
       <li
-        class="flex items-center text-xs text-gray-700 dark:text-gray-300 px-2 py-0.5 rounded-md bg-gray-50 dark:bg-[#161b22]">
-        <span class="w-2.5 h-2.5 rounded-full mr-1.5"
-          [style.background-color]="lang.name | getLanguageColor"></span>
+        class="flex items-center text-xs text-gray-700 dark:text-gray-300 px-2 py-0.5 rounded-md bg-gray-50 dark:bg-[#161b22] transition-all duration-300"
+        [ngStyle]="{
+        'border-width': '1px',
+        'border-color': hoveredItem === lang.name ? languageColor : 'transparent',
+        'box-shadow': hoveredItem === lang.name ? '0 0 10px ' + languageColor: 'none'
+      }" (mouseenter)="hoveredItem = lang.name" (mouseleave)="hoveredItem = null">
+        <span class="w-2.5 h-2.5 rounded-full mr-1.5" [style.background-color]="languageColor"></span>
         {{ lang.name }}
       </li>
       }
@@ -37,8 +42,7 @@
 
     <div class="flex items-center">
       <svg class="w-4 h-4 text-green-500 mr-1.5" fill="currentColor" viewBox="0 0 20 20">
-        <path
-          d="M10 2a6 6 0 016 6c0 4.418-6 10-6 10S4 12.418 4 8a6 6 0 016-6zm0 8a2 2 0 100-4 2 2 0 000 4z" />
+        <path d="M10 2a6 6 0 016 6c0 4.418-6 10-6 10S4 12.418 4 8a6 6 0 016-6zm0 8a2 2 0 100-4 2 2 0 000 4z" />
       </svg>
       <span>{{ stats()?.totalWatchers }} Watchers</span>
     </div>
