@@ -19,13 +19,13 @@ import {
   Legend,
 } from 'chart.js';
 import { MatrixController, MatrixElement } from 'chartjs-chart-matrix';
-import { LoadingDirective } from '../../../shared/directives/loading.directive';
+
 
 @Component({
   selector: 'app-heat-map',
   templateUrl: './heat-map.html',
   standalone: true,
-  imports: [LoadingDirective]
+  imports: []
 })
 export class HeatMap implements AfterViewInit {
   private githubService = inject(GithubService);

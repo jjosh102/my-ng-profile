@@ -2,16 +2,13 @@
   <h2 class="text-sm font-bold text-gray-900 dark:text-[#c9d1d9] mb-2">Code Frequency</h2>
 
   @if (hasData()) {
-    <figure
-      class="bg-white dark:bg-[#161b22] border border-gray-200 dark:border-[#30363d] shadow-sm rounded-lg p-4"
-    >
-      <canvas #chartCanvas width="400" height="200" aria-label="Code Frequency Chart"></canvas>
-    </figure>
+  <figure class="bg-white dark:bg-[#161b22] border border-gray-200 dark:border-[#30363d] shadow-sm rounded-lg p-4">
+    <canvas #chartCanvas width="400" height="200" aria-label="Code Frequency Chart"></canvas>
+  </figure>
   } @else {
-    <p
-      class="bg-white dark:bg-[#161b22] border border-gray-200 dark:border-[#30363d] shadow-sm rounded-lg p-4 text-center text-gray-500 dark:text-[#8b949e] text-sm animate-pulse"
-    >
-      Loading chart..
-    </p>
+  <p
+    class="bg-white dark:bg-[#161b22] border border-gray-200 dark:border-[#30363d] shadow-sm rounded-lg p-4 text-center text-gray-500 dark:text-[#8b949e] text-sm animate-pulse">
+    Loading chart..
+  </p>
   }
 </section>
