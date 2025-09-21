@@ -3,7 +3,6 @@ import {
   DestroyRef,
   inject,
   signal,
-  effect,
   ElementRef,
   viewChild,
   AfterViewInit,
