@@ -2,7 +2,6 @@ import { Component, effect, inject, input, OnInit, signal } from '@angular/core'
 import { Projects } from "../projects/projects";
 import { Footer } from '../footer/footer';
 import { UserProfileCard } from './user-profile-card/user-profile-card';
-import { ThemeService } from '../../services/theme.service';
 import { HeatMap } from "../charts/heat-map/heat-map";
 import { Stats } from "../stats/stats";
 
