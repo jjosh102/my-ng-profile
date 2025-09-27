@@ -1,43 +1,33 @@
-import { HttpClient, HttpErrorResponse } from "@angular/common/http";
-import { inject, Injectable } from "@angular/core";
-import { catchError, map, mergeMap, Observable, of, retry, retryWhen, tap, throwError, timer } from "rxjs";
-import { FailureResult, Result, SuccessResult } from "../models/result.model";
-import { LocalStorageCacheService } from "./localStorage.service";
-import { CommitDisplay, Contribution, GithubCommit, GithubContributions, GithubRepo, GithubRepoStats } from "../models/github.model";
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
+import { catchError, map, mergeMap, Observable, of, retry, retryWhen, tap, throwError, timer } from 'rxjs';
+import { FailureResult, Result, SuccessResult } from '../models/result.model';
+import { LocalStorageCacheService } from './localStorage.service';
+import { CommitDisplay, Contribution, GithubCommit, GithubContributions, GithubRepo, GithubRepoStats } from '../models/github.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class GithubService {
 
-  // todo: clean up
-  private readonly BaseAddress = "https://api.github.com";
-  private readonly ProxyBaseAddress = "https://obaki-core.onrender.com";
-  private readonly CommitsEndpoint = "commits";
-  private readonly CodeFrequencyEndpoint = "stats/code_frequency";
-  private readonly LanguagesEndpoint = "languages";
-  private readonly ProxyEndpoint = "https://obaki-core.onrender.com/api/v1/github-proxy?url=";
-
-  private readonly UserReposEndpoint = "users/jjosh102/repos";
-  private readonly RepoEndpoint = "repos/jjosh102";
-  private readonly ContributionsEndpoint = "api/v1/github-contributions";
-  private readonly cacheOneHourDuration = 60 * 60 * 1000;
+  private readonly BASE_ADDRESS = 'https://api.github.com';
+  private readonly REPO_ENDPOINT = 'repos/jjosh102';
+  private readonly CACHE_HOUR_MS  = 60 * 60 * 1000;
 
   private httpClient = inject(HttpClient);
   private cache = inject(LocalStorageCacheService);
 
   public getLanguagesUsed(repoName: string): Observable<Result<Record<string, number>>> {
-    const cacheKey = `${this.LanguagesEndpoint}-${repoName}`;
-    const endpoint = `${this.RepoEndpoint}/${repoName}/${this.LanguagesEndpoint}`;
-    return this.getAndCache<Record<string, number>>(endpoint, cacheKey, 30 * 24 * this.cacheOneHourDuration);
+    const cacheKey = `languages-${repoName}`;
+    const endpoint = `${this.REPO_ENDPOINT}/${repoName}/languages`;
+    return this.getAndCache<Record<string, number>>(endpoint, cacheKey, 30 * 24 * this.CACHE_HOUR_MS );
   }
 
   public getContributions(): Observable<Result<readonly Contribution[]>> {
     const cacheKey = 'contributions';
-    const endpoint = `${this.ProxyBaseAddress}/${this.ContributionsEndpoint}`;
+    const endpoint = 'https://obaki-core.onrender.com/api/v1/github-contributions';
 
-
-    return this.getAndCache<GithubContributions>(endpoint, cacheKey, this.cacheOneHourDuration, true).pipe(
+    return this.getAndCache<GithubContributions>(endpoint, cacheKey, this.CACHE_HOUR_MS , true).pipe(
       map(result => {
         if (result.isSuccess && result.value?.contributions) {
           const contributions: readonly Contribution[] = result.value.contributions.map(c => ({
@@ -52,10 +42,10 @@ export class GithubService {
   }
 
   public getCommitsForRepo(repoName: string): Observable<Result<readonly CommitDisplay[]>> {
-    const cacheKey = `${this.CommitsEndpoint}-${repoName}`;
-    const endpoint = `${this.RepoEndpoint}/${repoName}/${this.CommitsEndpoint}`;
+    const cacheKey = `commits-${repoName}`;
+    const endpoint = `${this.REPO_ENDPOINT}/${repoName}/commits`;
 
-    return this.getAndCache<readonly GithubCommit[]>(endpoint, cacheKey, this.cacheOneHourDuration).pipe(
+    return this.getAndCache<readonly GithubCommit[]>(endpoint, cacheKey, this.CACHE_HOUR_MS ).pipe(
       map(result => {
         if (result.isSuccess && result.value) {
           const commits: readonly CommitDisplay[] = result.value.map(c => ({
@@ -73,8 +63,7 @@ export class GithubService {
   }
 
   public getReposToBeShown(): Observable<Result<readonly GithubRepo[]>> {
-    const endpoint = this.UserReposEndpoint;
-    return this.getAndCache<readonly GithubRepo[]>(endpoint, "repos", this.cacheOneHourDuration).pipe(
+    return this.getAndCache<readonly GithubRepo[]>('users/jjosh102/repos', 'repos', this.CACHE_HOUR_MS ).pipe(
       map(result => {
         if (result.isSuccess && result.value) {
           const repos = result.value
@@ -92,11 +81,10 @@ export class GithubService {
   }
 
   public getRepoStats(): Observable<Result<GithubRepoStats>> {
-    const endpoint = this.UserReposEndpoint;
-    return this.getAndCache<readonly GithubRepo[]>(endpoint, "repo-stats", 7 * 24 * this.cacheOneHourDuration).pipe(
+    return this.getAndCache<readonly GithubRepo[]>('users/jjosh102/repos', 'repo-stats', 7 * 24 * this.CACHE_HOUR_MS ).pipe(
       map(result => {
         if (!result.isSuccess || !result.value) {
-          return { isSuccess: false, error: "Failed to fetch repositories." } as FailureResult;
+          return { isSuccess: false, error: 'Failed to fetch repositories.' } as FailureResult;
         }
 
         const repos = result.value;
@@ -131,12 +119,12 @@ export class GithubService {
   }
 
   public getCodeFrequencyStats(repoName: string): Observable<Result<readonly number[][]>> {
-    const cacheKey = `${this.CodeFrequencyEndpoint}-${repoName}`;
-    const endpoint = `${this.RepoEndpoint}/${repoName}/${this.CodeFrequencyEndpoint}`;
+    const cacheKey = `code-frequency-${repoName}`;
+    const endpoint = `${this.REPO_ENDPOINT}/${repoName}/stats/code_frequency`;
     const maxRetries = 5;
     const baseDelayMs = 3000;
 
-    return this.getAndCache<readonly number[][]>(endpoint, cacheKey, this.cacheOneHourDuration).pipe(
+    return this.getAndCache<readonly number[][]>(endpoint, cacheKey, this.CACHE_HOUR_MS ).pipe(
       tap(result => {
         if (result.isSuccess && !result.value) {
           throw new Error('Received an empty value, retrying...');
@@ -187,7 +175,7 @@ export class GithubService {
   private fetchDataAndHandleErrors<T>(endpoint: string, isCustomUrl = false): Observable<T> {
     const requestUrl = isCustomUrl
       ? endpoint
-      : `${this.BaseAddress}/${endpoint}`;
+      : `${this.BASE_ADDRESS}/${endpoint}`;
 
     return this.httpClient.get<{ data?: T } | T>(requestUrl, {
       observe: 'response'
@@ -213,7 +201,7 @@ export class GithubService {
 
         if (isRateLimited) {
           console.warn('Rate limit exceeded. Falling back to proxy...');
-          const proxyUrl = `${this.ProxyEndpoint}${this.BaseAddress}${endpoint}`;
+          const proxyUrl = `https://obaki-core.onrender.com/api/v1/github-proxy?url=${this.BASE_ADDRESS}${endpoint}`;
           return this.fetchDataAndHandleErrors<T>(proxyUrl, true);
         } else {
           console.error('HTTP Error:', error);

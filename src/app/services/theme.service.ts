@@ -1,16 +1,16 @@
-import { computed, DOCUMENT, effect, inject, Injectable, signal } from "@angular/core";
-import { Theme } from "../models/theme.model";
+import { computed, DOCUMENT, effect, inject, Injectable, signal } from '@angular/core';
+import { Theme } from '../models/theme.model';
 
 @Injectable({
   providedIn: 'root',
 })
 
 export class ThemeService {
-  private readonly _theme = signal<Theme>('light');
+  private readonly themeValue = signal<Theme>('light');
   private readonly STORAGE_KEY = 'app-theme';
   private readonly document = inject(DOCUMENT)
 
-  readonly theme = this._theme.asReadonly();
+  readonly theme = this.themeValue.asReadonly();
   readonly isDarkTheme = computed(() => this.theme() === 'dark');
 
   constructor() {
@@ -25,17 +25,17 @@ export class ThemeService {
   }
 
   toggleTheme(): void {
-    this._theme.update(currentTheme => (currentTheme === 'light' ? 'dark' : 'light'));
+    this.themeValue.update(currentTheme => (currentTheme === 'light' ? 'dark' : 'light'));
   }
 
   private initializeTheme(): void {
     const storedTheme = localStorage.getItem(this.STORAGE_KEY) as Theme;
 
     if (storedTheme) {
-      this._theme.set(storedTheme);
+      this.themeValue.set(storedTheme);
     } else {
       const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      this._theme.set(prefersDark ? 'dark' : 'light');
+      this.themeValue.set(prefersDark ? 'dark' : 'light');
     }
   }
 }
