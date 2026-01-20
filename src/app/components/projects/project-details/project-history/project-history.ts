@@ -1,12 +1,12 @@
 import { Component, DestroyRef, effect, inject, input, OnInit, signal } from '@angular/core';
 import { GithubService } from '../../../../services/github.service';
 import { CommitDisplay } from '../../../../models/github.model';
-import { CommonModule } from '@angular/common';
+
 import { FormatTimeAgoPipe } from '../../../../shared/pipes/format-time-ago-pipe';
 
 @Component({
   selector: 'app-project-history',
-  imports: [CommonModule, FormatTimeAgoPipe],
+  imports: [FormatTimeAgoPipe],
   templateUrl: './project-history.html',
 })
 export class ProjectHistory implements OnInit {
