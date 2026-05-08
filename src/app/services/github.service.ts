@@ -204,8 +204,12 @@ export class GithubService {
           const proxyUrl = `https://obaki-core.onrender.com/api/v1/github-proxy?url=${this.BASE_ADDRESS}${endpoint}`;
           return this.fetchDataAndHandleErrors<T>(proxyUrl, true);
         } else {
-          console.error('HTTP Error:', error);
-          return throwError(() => new Error(`HTTP Error: ${error.status} - ${error.message}`));
+          let errorMessage = `HTTP Error: ${error.status} - ${error.message}`;
+          if (error.status === 0) {
+            errorMessage = 'Network error or CORS restriction. The API might be down or blocking the request.';
+          }
+          console.error(errorMessage, error);
+          return throwError(() => new Error(errorMessage));
         }
       })
     );
