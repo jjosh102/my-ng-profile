@@ -1,24 +1,37 @@
-  @if (languages()) {
-      <div class="my-4">
-        <h3 class="text-sm font-bold text-gray-900 dark:text-[#c9d1d9] mb-2">Languages Used</h3>
-        <div class="flex flex-wrap gap-2">
-          @for (language of languages() | keyvalue; track language.key) {
-            <div class="flex items-center space-x-1 text-gray-900 dark:text-[#c9d1d9]">
-              <span class="w-2 h-2 rounded-full" [style.background-color]="language.key | getLanguageColor"></span>
-              <span class="text-sm">{{ language.key }}</span>
-            </div>
-          }
+@if (languages()) {
+<section class="space-y-4">
+  <h3 class="text-sm font-bold text-gray-900 dark:text-gray-100 uppercase tracking-widest">Languages</h3>
+  <div class="flex flex-col gap-4">
+    <div class="flex h-2.5 w-full overflow-hidden rounded-full bg-gray-100 dark:bg-gray-800">
+      @for (language of languages() | keyvalue; track language.key) {
+        @let color = (language.key | getLanguageColor) || '#808080';
+        @let percentage = calculatePercentage(language.value);
+        <div
+          class="h-full first:rounded-l-full last:rounded-r-full transition-all duration-500 hover:opacity-80 cursor-help"
+          [style.width.%]="percentage"
+          [style.background-color]="color"
+          [title]="language.key + ': ' + percentage + '%'">
         </div>
-      </div>
-    } @else {
-      <div class="my-4 animate-pulse">
-        <div class="h-4 w-32 bg-gray-200 dark:bg-[#30363d] rounded mb-2"></div>
-        <div class="flex flex-wrap gap-2">
-          @for (_ of [1, 2, 3, 4]; track _) {
-            <div class="flex items-center space-x-1">
-              <div class="w-16 h-4 bg-gray-200 dark:bg-[#30363d] rounded"></div>
-            </div>
-          }
-        </div>
-      </div>
-    }
+      }
+    </div>
+    <ul class="flex flex-wrap gap-x-6 gap-y-3">
+      @for (language of languages() | keyvalue; track language.key) {
+        <li class="flex items-center gap-2 group cursor-default">
+          <span class="w-3 h-3 rounded-full group-hover:scale-125 transition-transform" [style.background-color]="language.key | getLanguageColor"></span>
+          <span class="text-sm font-semibold text-gray-700 dark:text-gray-300">{{ language.key }}</span>
+          <span class="text-xs text-gray-400 font-medium">{{ calculatePercentage(language.value) }}%</span>
+        </li>
+      }
+    </ul>
+  </div>
+</section>
+} @else {
+<div class="space-y-4 animate-pulse">
+  <div class="h-4 w-24 bg-gray-200 dark:bg-gray-800 rounded"></div>
+  <div class="h-2.5 w-full bg-gray-100 dark:bg-gray-800 rounded-full"></div>
+  <div class="flex gap-4">
+    <div class="h-4 w-16 bg-gray-100 dark:bg-gray-800 rounded"></div>
+    <div class="h-4 w-16 bg-gray-100 dark:bg-gray-800 rounded"></div>
+  </div>
+</div>
+}

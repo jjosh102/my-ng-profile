@@ -1,14 +1,21 @@
-<section class="my-4">
-  <h2 class="text-sm font-bold text-gray-900 dark:text-[#c9d1d9] mb-2">Code Frequency</h2>
+<section class="glass p-8 rounded-3xl space-y-6">
+  <div class="space-y-1">
+    <h2 class="text-xl font-bold text-gray-900 dark:text-gray-100 flex items-center gap-2">
+      <svg class="w-5 h-5 text-purple-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z" />
+      </svg>
+      Code Frequency
+    </h2>
+    <p class="text-sm text-gray-500 dark:text-gray-400">Weekly additions and deletions over time</p>
+  </div>
 
   @if (hasData()) {
-  <figure class="bg-white dark:bg-[#161b22] border border-gray-200 dark:border-[#30363d] shadow-sm rounded-lg p-4">
+  <figure class="p-4 rounded-2xl bg-white/50 dark:bg-black/20">
     <canvas #chartCanvas width="400" height="200" aria-label="Code Frequency Chart"></canvas>
   </figure>
   } @else {
-  <p
-    class="bg-white dark:bg-[#161b22] border border-gray-200 dark:border-[#30363d] shadow-sm rounded-lg p-4 text-center text-gray-500 dark:text-[#8b949e] text-sm animate-pulse">
-    Loading chart..
-  </p>
+  <div class="h-[200px] flex items-center justify-center glass rounded-2xl animate-pulse">
+    <p class="text-gray-400 text-sm font-medium italic">Preparing data visualization...</p>
+  </div>
   }
 </section>

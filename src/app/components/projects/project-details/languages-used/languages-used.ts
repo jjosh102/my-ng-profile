@@ -14,6 +14,13 @@ export class LanguagesUsed implements OnInit {
   repoName = input.required<string>();
   languages = signal<Record<string, number> | null>(null)
 
+  calculatePercentage(value: number): number {
+    const langs = this.languages();
+    if (!langs) return 0;
+    const total = Object.values(langs).reduce((acc, curr) => acc + curr, 0);
+    return total === 0 ? 0 : Math.round((value / total) * 100);
+  }
+
 
   ngOnInit() {
     const subscription = this.githubService.getLanguagesUsed(this.repoName())

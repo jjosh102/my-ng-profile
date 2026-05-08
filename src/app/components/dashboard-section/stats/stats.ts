@@ -2,11 +2,11 @@ import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
 import { GetLanguageColorPipe } from '../../../shared/pipes/get-language-color-pipe';
 import { GithubService } from '../../../services/github.service';
 import { GithubRepoStats } from '../../../models/github.model';
-import { NgStyle } from '@angular/common';
+
 
 @Component({
   selector: 'app-stats',
-  imports: [GetLanguageColorPipe, NgStyle],
+  imports: [GetLanguageColorPipe],
   templateUrl: './stats.html',
 })
 export class Stats implements OnInit {

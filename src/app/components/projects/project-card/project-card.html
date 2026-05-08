@@ -1,39 +1,57 @@
-<li  [routerLink]="['/project/details', repo().id]"
-  class="w-full border border-gray-200 dark:border-[#30363d] bg-white dark:bg-transparent shadow-sm rounded-lg p-4 hover-effect">
-  <article>
-    <header class="mb-1">
-      <a [href]="repo().html_url" target="_blank" class="text-md text-blue-600 dark:text-[#58a6ff] hover:underline">
-        {{ repo().name }}
+<li [routerLink]="['/project/details', repo().id]"
+    class="w-full glass rounded-3xl p-6 hover-effect cursor-pointer flex flex-col group/card relative overflow-hidden">
+  <div class="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-transparent opacity-0 group-hover/card:opacity-100 transition-opacity duration-500"></div>
+
+  <article class="flex flex-col h-full relative z-10">
+    <header class="flex items-start justify-between mb-4">
+      <div class="flex items-center gap-3">
+        <div class="p-2 rounded-xl bg-blue-500/10 dark:bg-blue-500/20 text-blue-600 dark:text-blue-400 group-hover/card:scale-110 transition-transform">
+          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
+          </svg>
+        </div>
+        <h3 class="text-lg font-extrabold text-gray-900 dark:text-gray-100 group-hover/card:text-blue-600 dark:group-hover/card:text-blue-400 transition-colors tracking-tight">
+          {{ repo().name }}
+        </h3>
+      </div>
+      <a [href]="repo().html_url" target="_blank" (click)="$event.stopPropagation()"
+         class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-all">
+        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.11.82-.26.82-.577v-2.165c-3.338.726-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.757-1.333-1.757-1.09-.745.083-.73.083-.73 1.205.084 1.84 1.237 1.84 1.237 1.07 1.835 2.807 1.305 3.492.997.108-.774.42-1.305.763-1.605-2.665-.305-5.466-1.335-5.466-5.93 0-1.31.467-2.38 1.235-3.22-.123-.305-.535-1.53.117-3.18 0 0 1.008-.322 3.3 1.23.957-.266 1.98-.398 3-.403 1.02.005 2.043.137 3 .403 2.29-1.552 3.297-1.23 3.297-1.23.653 1.65.24 2.875.117 3.18.77.84 1.235 1.91 1.235 3.22 0 4.61-2.803 5.62-5.475 5.92.43.37.823 1.1.823 2.22v3.293c0 .32.217.694.825.577C20.565 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z" />
+        </svg>
       </a>
     </header>
-    <p class="text-gray-600 dark:text-gray-400 text-sm">{{ repo().description || 'No description provided.' }}</p>
 
-    <div class="flex flex-wrap gap-2 text-xs my-4">
-      @for (topic of repo().topics; track topic) {
-      <span class="bg-blue-50 dark:bg-[#121D2F] rounded-full px-2 py-1 text-blue-600 dark:text-[#58a6ff]">{{ topic
-        }}</span>
+    <p class="text-gray-600 dark:text-gray-400 text-sm leading-relaxed line-clamp-2 mb-6 grow font-medium">
+      {{ repo().description || 'No description provided.' }}
+    </p>
+
+    <div class="flex flex-wrap gap-2 mb-6">
+      @for (topic of repo().topics.slice(0, 3); track topic) {
+      <span class="px-3 py-1 rounded-xl text-[10px] font-black tracking-widest uppercase bg-blue-500/5 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/10 dark:border-blue-500/20">
+        {{ topic }}
+      </span>
       }
     </div>
 
-    <footer class="flex items-center text-xs text-gray-500 dark:text-gray-400 my-2 space-x-4">
-      @if (repo().language) {
-      <div class="flex items-center">
-        <span class="w-2.5 h-2.5 rounded-full mr-1"
-          [style.background-color]="repo().language | getLanguageColor"></span>
-        {{ repo().language }}
+    <footer class="flex items-center justify-between text-xs text-gray-500 dark:text-gray-400 mt-auto pt-4 border-t border-gray-200/50 dark:border-gray-800/50">
+      <div class="flex items-center gap-4">
+        @if (repo().language) {
+        <div class="flex items-center gap-2">
+          <span class="w-2.5 h-2.5 rounded-full shadow-sm" [style.background-color]="repo().language | getLanguageColor"></span>
+          <span class="font-bold text-gray-700 dark:text-gray-300">{{ repo().language }}</span>
+        </div>
+        }
+        @if (repo().stargazers_count > 0) {
+        <div class="flex items-center gap-1.5">
+          <svg class="w-4 h-4 text-yellow-500 drop-shadow-sm" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.751.751 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Z"></path>
+          </svg>
+          <span class="font-bold text-gray-700 dark:text-gray-300">{{ repo().stargazers_count }}</span>
+        </div>
+        }
       </div>
-      }
-      @if (repo().stargazers_count > 0) {
-      <div class="flex items-center text-sm">
-        <svg class="w-4 h-4 text-yellow-400 dark:text-yellow-500 mr-1" fill="currentColor" viewBox="0 0 16 16">
-          <path
-            d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.751.751 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Z">
-          </path>
-        </svg>
-        <span>{{ repo().stargazers_count }}</span>
-      </div>
-      }
-      <span>{{ repo().updated_at | formatTimeAgo}}</span>
+      <span class="italic font-medium opacity-70">{{ repo().updated_at | formatTimeAgo}}</span>
     </footer>
   </article>
 </li>

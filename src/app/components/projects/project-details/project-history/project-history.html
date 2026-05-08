@@ -1,56 +1,73 @@
-<section class="my-4 mx-auto max-w-2xl px-4">
-  <h2 class="text-sm font-bold text-gray-900 dark:text-[#c9d1d9] mb-2">Project History</h2>
-  <article class="space-y-6">
+<section class="space-y-6">
+  <div class="flex items-center justify-between">
+    <h3 class="text-lg font-bold text-gray-900 dark:text-gray-100 flex items-center gap-2">
+      <svg class="w-5 h-5 text-purple-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+      Commit History
+    </h3>
+  </div>
+
+  <article class="space-y-4">
     @if (isLoading()) {
-      <ul class="space-y-4">
+      <div class="space-y-4">
         @for (_ of [1, 2, 3]; track _) {
-          <li class="bg-white dark:bg-[#0D1117] border border-gray-200 dark:border-[#30363d] shadow-sm rounded-lg p-4">
-            <div class="animate-pulse flex space-x-4">
-              <span class="rounded-full bg-gray-200 dark:bg-[#30363d] h-10 w-10"></span>
+          <div class="glass p-4 rounded-2xl animate-pulse">
+            <div class="flex gap-4">
+              <div class="w-10 h-10 rounded-full bg-gray-200 dark:bg-gray-800"></div>
               <div class="flex-1 space-y-2">
-                <span class="block h-4 bg-gray-200 dark:bg-[#30363d] rounded-sm w-3/4"></span>
-                <span class="block h-4 bg-gray-200 dark:bg-[#30363d] rounded"></span>
-                <span class="block h-4 bg-gray-200 dark:bg-[#30363d] rounded-sm w-1/2"></span>
+                <div class="h-4 bg-gray-200 dark:bg-gray-800 rounded w-1/4"></div>
+                <div class="h-4 bg-gray-200 dark:bg-gray-800 rounded w-3/4"></div>
               </div>
+            </div>
+          </div>
+        }
+      </div>
+    } @else if (visibleCommits().length > 0) {
+      <ul class="relative space-y-4 before:absolute before:inset-0 before:ml-5 before:-translate-x-px before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-gray-200 dark:before:via-gray-800 before:to-transparent">
+        @for (commit of visibleCommits(); track commit.commitUrl) {
+          <li class="relative flex items-start gap-4 group">
+            <div class="relative z-10 flex items-center justify-center w-10 h-10 rounded-full bg-white dark:bg-[#0d1117] border border-gray-200 dark:border-gray-800 shadow-sm group-hover:scale-110 transition-transform duration-300">
+              <img class="w-8 h-8 rounded-full" [src]="commit?.authorAvatarUrl" [alt]="commit.authorName" />
+            </div>
+            <div class="flex-1 glass p-5 rounded-2xl hover-effect group/item relative overflow-hidden">
+               <div class="absolute inset-0 bg-gradient-to-r from-blue-500/0 via-blue-500/0 to-blue-500/0 group-hover/item:to-blue-500/5 transition-all duration-500"></div>
+              <header class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2">
+                <div class="flex items-center gap-2">
+                  <p class="text-sm font-bold text-gray-900 dark:text-gray-100">{{ commit?.authorName }}</p>
+                  <span class="text-[10px] text-gray-400 font-mono">/</span>
+                  <time class="text-xs text-gray-500 dark:text-gray-400">
+                    {{ commit.commitDate | formatTimeAgo }}
+                  </time>
+                </div>
+                <a [href]="commit.commitUrl" target="_blank" rel="noopener noreferrer"
+                  class="text-xs font-semibold text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1 group/link">
+                  View Commit
+                  <svg class="w-3 h-3 group-hover/link:translate-x-0.5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                  </svg>
+                </a>
+              </header>
+              <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed font-medium line-clamp-2">
+                {{ commit.message }}
+              </p>
             </div>
           </li>
         }
       </ul>
-    } @else if (visibleCommits().length > 0) {
-      <ul class="space-y-4">
-        @for (commit of visibleCommits(); track commit.commitUrl) {
-          <li class="bg-white dark:bg-[#0D1117] border border-gray-200 dark:border-[#30363d] shadow-sm rounded-lg p-4">
-            <header class="flex flex-col md:flex-row justify-between items-start space-y-3 md:space-y-0">
-              <div class="flex items-center space-x-3">
-                <img class="w-8 h-8 rounded-full" [src]="commit?.authorAvatarUrl" [alt]="commit.authorName" />
-                <div>
-                  <p class="text-sm font-semibold text-gray-900 dark:text-[#c9d1d9]">{{ commit?.authorName }}</p>
-                  <time class="text-xs text-gray-600 dark:text-gray-400">
-                    {{ commit.commitDate| formatTimeAgo }}
-                  </time>
-                </div>
-              </div>
-              <a [href]="commit.commitUrl" target="_blank" rel="noopener noreferrer"
-                class="text-sm text-blue-600 dark:text-[#58a6ff] hover:underline whitespace-nowrap">
-                View Commit
-              </a>
-            </header>
-            <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">{{ commit.message }}</p>
-          </li>
-        }
-        @if (commits().length > 5) {
-          <li>
-            <button (click)="toggleExpand()"
-              class="w-full bg-gray-100 dark:bg-[#21262d] text-gray-900 dark:text-[#c9d1d9] border border-gray-200 dark:border-[#30363d] px-4 py-2 rounded-md hover:bg-gray-200 dark:hover:bg-[#30363d] transition-colors duration-200">
-              {{ showAll() ? "Show Less" : "Show More" }}
-            </button>
-          </li>
-        }
-      </ul>
+
+      @if (commits().length > 5) {
+        <div class="flex justify-center pt-4">
+          <button (click)="toggleExpand()"
+            class="px-6 py-2 rounded-xl glass hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-300 font-bold text-sm text-gray-700 dark:text-gray-300 shadow-lg shadow-gray-500/5">
+            {{ showAll() ? "Show Less" : "Show More" }}
+          </button>
+        </div>
+      }
     } @else {
-      <p class="bg-white dark:bg-[#161b22] border border-gray-200 dark:border-[#30363d] shadow-sm rounded-lg p-4 text-center text-red-600 dark:text-[#cf222e]">
-        No commits found for this repository.
-      </p>
+      <div class="glass p-8 rounded-3xl text-center">
+        <p class="text-gray-500 dark:text-gray-400 italic">No commits found for this repository.</p>
+      </div>
     }
   </article>
 </section>
