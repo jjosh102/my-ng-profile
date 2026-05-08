@@ -4,7 +4,7 @@ import { Pipe, PipeTransform } from '@angular/core';
   name: 'formatTimeAgo'
 })
 export class FormatTimeAgoPipe implements PipeTransform {
-  transform(lastModified: string | Date | undefined): string {
+  transform(lastModified: string | Date | undefined, showPrefix = true): string {
 
     if (lastModified == undefined) {
       return 'invalid';
@@ -21,25 +21,27 @@ export class FormatTimeAgoPipe implements PipeTransform {
     const totalMonths = Math.floor(totalDays / 30);
     const totalYears = Math.floor(totalDays / 365);
 
+    const prefix = showPrefix ? 'Updated ' : '';
+
     if (totalSeconds < 60) {
       return 'just now';
     }
     if (totalMinutes < 60) {
-      return `Updated ${totalMinutes} minute${totalMinutes > 1 ? 's' : ''} ago`;
+      return `${prefix}${totalMinutes} minute${totalMinutes > 1 ? 's' : ''} ago`;
     }
     if (totalHours < 24) {
-      return `Updated ${totalHours} hour${totalHours > 1 ? 's' : ''} ago`;
+      return `${prefix}${totalHours} hour${totalHours > 1 ? 's' : ''} ago`;
     }
     if (totalDays < 7) {
-      return `Updated ${totalDays} day${totalDays > 1 ? 's' : ''} ago`;
+      return `${prefix}${totalDays} day${totalDays > 1 ? 's' : ''} ago`;
     }
     if (totalDays < 30) {
-      return `Updated ${totalWeeks} week${totalWeeks > 1 ? 's' : ''} ago`;
+      return `${prefix}${totalWeeks} week${totalWeeks > 1 ? 's' : ''} ago`;
     }
     if (totalDays < 365) {
-      return `Updated ${totalMonths} month${totalMonths > 1 ? 's' : ''} ago`;
+      return `${prefix}${totalMonths} month${totalMonths > 1 ? 's' : ''} ago`;
     }
 
-    return `Updated ${totalYears} year${totalYears > 1 ? 's' : ''} ago`;
+    return `${prefix}${totalYears} year${totalYears > 1 ? 's' : ''} ago`;
   }
 }

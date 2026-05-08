@@ -120,10 +120,10 @@ export class ActivityPulse implements AfterViewInit {
         legend: { display: false },
         tooltip: {
           backgroundColor: 'rgba(13, 17, 23, 0.8)',
-          titleFont: { size: 14, weight: 'bold' },
-          bodyFont: { size: 13 },
-          padding: 12,
-          cornerRadius: 12,
+          titleFont: { size: 12, weight: 'bold' },
+          bodyFont: { size: 11 },
+          padding: 10,
+          cornerRadius: 8,
           displayColors: false,
           callbacks: {
             label: (context) => ` ${context.raw} Contributions`,
@@ -135,7 +135,10 @@ export class ActivityPulse implements AfterViewInit {
           grid: { display: false },
           ticks: {
             color: '#94a3b8',
-            font: { size: 11, weight: 600 },
+            font: { size: window.innerWidth < 640 ? 9 : 11, weight: 600 },
+            autoSkip: true,
+            maxRotation: 0,
+            padding: 10
           },
           border: { display: false },
         },
