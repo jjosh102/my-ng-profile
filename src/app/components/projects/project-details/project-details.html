@@ -16,6 +16,21 @@
 
       @if (repo()) {
       <div class="flex items-center gap-3">
+        <button (click)="copyToClipboard(repo()!.clone_url)"
+          class="flex items-center gap-2 px-4 py-2 rounded-xl glass hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-300 font-semibold text-sm relative group">
+          @if (copied()) {
+            <svg class="w-4 h-4 text-green-500 animate-in zoom-in duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+            </svg>
+            <span class="text-green-500 animate-in fade-in slide-in-from-left-1 duration-300">Copied!</span>
+          } @else {
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+            </svg>
+            <span>Clone</span>
+          }
+        </button>
+
         @if (repo()?.homepage) {
         <a [href]="repo()?.homepage" target="_blank" rel="noopener noreferrer"
           class="flex items-center gap-2 px-4 py-2 rounded-xl bg-green-500 text-white hover:bg-green-600 shadow-lg shadow-green-500/20 transition-all duration-300 font-semibold text-sm">

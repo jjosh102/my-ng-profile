@@ -31,7 +31,7 @@
               <img class="w-8 h-8 rounded-full" [src]="commit?.authorAvatarUrl" [alt]="commit.authorName" />
             </div>
             <div class="flex-1 glass p-5 rounded-2xl hover-effect group/item relative overflow-hidden">
-               <div class="absolute inset-0 bg-gradient-to-r from-blue-500/0 via-blue-500/0 to-blue-500/0 group-hover/item:to-blue-500/5 transition-all duration-500"></div>
+               <div class="absolute inset-0 bg-gradient-to-r from-blue-500/0 via-blue-500/0 to-blue-500/0 group-hover/item:to-blue-500/5 transition-all duration-500 pointer-events-none"></div>
               <header class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
                 <div class="flex items-center flex-wrap gap-x-2 gap-y-1">
                   <p class="text-sm font-bold text-gray-900 dark:text-gray-100 tracking-tight">{{ commit?.authorName }}</p>

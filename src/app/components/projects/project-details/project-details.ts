@@ -27,6 +27,7 @@ export class ProjectDetails implements OnInit {
   private destroyRef = inject(DestroyRef);
   projectId = input.required<string>();
   repo = signal<GithubRepo | undefined>(undefined);
+  copied = signal<boolean>(false);
 
   ngOnInit() {
     const subscription = this.githubService.getReposToBeShown()
@@ -41,6 +42,13 @@ export class ProjectDetails implements OnInit {
 
     this.destroyRef.onDestroy(() => {
       subscription.unsubscribe();
+    });
+  }
+
+  copyToClipboard(text: string) {
+    navigator.clipboard.writeText(text).then(() => {
+      this.copied.set(true);
+      setTimeout(() => this.copied.set(false), 2000);
     });
   }
 }
