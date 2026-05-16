@@ -2,12 +2,13 @@ import { Component, computed, DestroyRef, inject, OnInit, signal } from '@angula
 import { GithubService } from '../../services/github.service';
 import { GithubRepo } from '../../models/github.model';
 import { ProjectCard } from './project-card/project-card';
+import { ProjectSpotlight } from './project-spotlight/project-spotlight';
 import { ProjectCardSkeleton } from "./project-card-skeleton/project-card-skeleton";
 import { GetLanguageColorPipe } from '../../shared/pipes/get-language-color-pipe';
 
 @Component({
   selector: 'app-projects',
-  imports: [ProjectCard, ProjectCardSkeleton, GetLanguageColorPipe],
+  imports: [ProjectCard, ProjectSpotlight, ProjectCardSkeleton, GetLanguageColorPipe],
   templateUrl: './projects.html',
 })
 export class Projects implements OnInit {
@@ -18,6 +19,11 @@ export class Projects implements OnInit {
   isLoading = signal<boolean>(true);
   searchQuery = signal<string>('');
   selectedLanguage = signal<string | null>(null);
+
+  spotlightRepo = computed(() => {
+    const allRepos = this.repos();
+    return allRepos.length > 0 ? allRepos[0] : null;
+  });
 
   languages = computed(() => {
     const langs = new Set<string>();
@@ -30,8 +36,14 @@ export class Projects implements OnInit {
   filteredRepos = computed(() => {
     const query = this.searchQuery().toLowerCase().trim();
     const lang = this.selectedLanguage();
+    const spotlight = this.spotlightRepo();
     
     let filtered = this.repos();
+
+    // Exclude spotlight repo if no filters are active
+    if (!query && !lang && spotlight) {
+      filtered = filtered.filter(repo => repo.id !== spotlight.id);
+    }
 
     if (lang) {
       filtered = filtered.filter(repo => repo.language === lang);

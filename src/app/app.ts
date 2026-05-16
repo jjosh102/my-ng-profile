@@ -1,6 +1,7 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Header } from "./components/header/header";
 import { RouterOutlet } from '@angular/router';
+import { UserService } from './services/user.service';
 
 @Component({
   selector: 'app-root',
@@ -8,11 +9,6 @@ import { RouterOutlet } from '@angular/router';
   templateUrl: './app.html'
 })
 export class App {
-  user = {
-    name: 'Josh J Piluden',
-    bio: '.NET developer by day, tech tinkerer by night—always curious, always building, and loving every bit of the journey!',
-    githubUrl: 'https://github.com/jjosh102',
-    email: 'joshuajpiluden@gmail.com',
-    avatarUrl: 'https://avatars.githubusercontent.com/u/50490077?v=4'
-  };
+  private userService = inject(UserService);
+  user = this.userService.user();
 }

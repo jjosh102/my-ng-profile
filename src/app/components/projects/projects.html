@@ -31,6 +31,12 @@
   </div>
 </div>
 
+@if (spotlightRepo() && !searchQuery() && !selectedLanguage()) {
+  <div class="mb-12">
+    <app-project-spotlight [repo]="spotlightRepo()!" />
+  </div>
+}
+
 <div class="flex flex-wrap gap-2 mb-8">
   <button
     (click)="selectedLanguage.set(null)"
