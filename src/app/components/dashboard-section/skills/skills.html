@@ -1,0 +1,61 @@
+<div class="space-y-6">
+  <div class="flex items-center justify-between">
+    <h2 class="text-lg font-bold text-gray-900 dark:text-gray-100 flex items-center gap-2">
+      <div class="p-1.5 rounded-lg bg-blue-500/10 dark:bg-blue-500/20">
+        <svg class="w-5 h-5 text-blue-600 dark:text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+        </svg>
+      </div>
+      Skills & Expertise
+    </h2>
+    
+    <div class="flex gap-1.5 bg-gray-100/80 dark:bg-gray-800/40 p-1 rounded-xl">
+      <button 
+        (click)="selectCategory(null)"
+        [class]="!selectedCategory() ? 'bg-white dark:bg-[#0d1117] text-blue-600 dark:text-blue-400 shadow-sm' : 'text-gray-500 hover:text-gray-900 dark:hover:text-gray-100'"
+        class="px-3 py-1 rounded-lg text-xs font-bold transition-all duration-300">
+        All
+      </button>
+      @for (cat of user().skillCategories; track cat.category) {
+        <button 
+          (click)="selectCategory(cat.category)"
+          [class]="selectedCategory() === cat.category ? 'bg-white dark:bg-[#0d1117] text-blue-600 dark:text-blue-400 shadow-sm' : 'text-gray-500 hover:text-gray-900 dark:hover:text-gray-100'"
+          class="px-3 py-1 rounded-lg text-xs font-bold transition-all duration-300 hidden md:block">
+          {{ cat.category.split(' ')[0] }}
+        </button>
+      }
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    @for (cat of user().skillCategories; track cat.category) {
+      @if (!selectedCategory() || selectedCategory() === cat.category) {
+        <div class="glass p-6 rounded-3xl relative overflow-hidden group hover-effect flex flex-col justify-between">
+          <div class="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-transparent to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+          
+          <div class="relative z-10 space-y-4">
+            <header class="flex items-center justify-between border-b border-gray-100 dark:border-gray-800 pb-3">
+              <h3 class="text-sm font-bold text-gray-900 dark:text-gray-100 tracking-tight flex items-center gap-2">
+                <span class="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse"></span>
+                {{ cat.category }}
+              </h3>
+              <span class="text-[10px] font-black text-gray-400 uppercase tracking-widest bg-gray-100 dark:bg-gray-800 px-2 py-0.5 rounded-md">
+                {{ cat.skills.length }} Skills
+              </span>
+            </header>
+
+            <ul class="flex flex-wrap gap-2.5">
+              @for (skill of cat.skills; track skill.name) {
+                <li class="flex items-center gap-2 px-3.5 py-2 rounded-2xl bg-gray-50/50 dark:bg-[#161b22]/50 border border-gray-100 dark:border-gray-800 hover:border-blue-500/20 hover:bg-white dark:hover:bg-[#0d1117] transition-all duration-300 group/skill cursor-default">
+                  <span class="text-xs font-bold text-gray-700 dark:text-gray-300 group-hover/skill:text-blue-600 dark:group-hover/skill:text-blue-400 transition-colors">
+                    {{ skill.name }}
+                  </span>
+                </li>
+              }
+            </ul>
+          </div>
+        </div>
+      }
+    }
+  </div>
+</div>

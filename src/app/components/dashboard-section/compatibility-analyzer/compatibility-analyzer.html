@@ -1,0 +1,119 @@
+<div class="glass p-6 sm:p-8 rounded-3xl relative overflow-hidden group">
+  <div class="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-transparent to-cyan-500/5 opacity-40"></div>
+
+  <header class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-gray-100 dark:border-gray-800 pb-5 mb-6">
+    <div>
+      <h2 class="text-lg font-bold text-gray-900 dark:text-gray-100 flex items-center gap-2">
+        <div class="p-1.5 rounded-lg bg-cyan-500/10 dark:bg-cyan-500/20">
+          <svg class="w-5 h-5 text-cyan-600 dark:text-cyan-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+          </svg>
+        </div>
+        Tech Compatibility Analyzer
+      </h2>
+      <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">
+        Select target requirements or select a role profile to compute technical match diagnostics.
+      </p>
+    </div>
+
+    <div class="flex flex-wrap gap-1.5">
+      @for (role of roles; track role.name) {
+        <button 
+          (click)="selectRole(role)"
+          [class]="selectedRole() === role.name ? 'bg-cyan-500 text-white shadow-lg shadow-cyan-500/20' : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700'"
+          class="px-3 py-1.5 rounded-xl text-[11px] font-bold transition-all duration-300">
+          {{ role.name }}
+        </button>
+      }
+      <button 
+        (click)="clearAll()"
+        class="px-2.5 py-1.5 rounded-xl text-[11px] font-black text-red-500 hover:bg-red-500/10 dark:hover:bg-red-500/20 border border-transparent transition-all">
+        Clear
+      </button>
+    </div>
+  </header>
+
+  <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8">
+    <div class="lg:col-span-4 flex flex-col items-center justify-between p-6 rounded-3xl bg-gray-50/50 dark:bg-[#161b22]/30 border border-gray-100 dark:border-gray-800 text-center relative overflow-hidden group/dashboard min-h-[300px]">
+      @if (isScanning()) {
+        <div class="absolute inset-0 bg-[#0d1117]/85 backdrop-blur-sm flex flex-col items-center justify-center gap-3 z-30 animate-in fade-in duration-200">
+          <div class="relative w-16 h-16">
+            <div class="absolute inset-0 rounded-full border-4 border-cyan-500/25"></div>
+            <div class="absolute inset-0 rounded-full border-4 border-cyan-500 border-t-transparent animate-spin"></div>
+          </div>
+          <span class="text-xs font-black text-cyan-400 uppercase tracking-[0.2em] animate-pulse">Running Scan...</span>
+        </div>
+      }
+
+      <div>
+        <h3 class="text-xs font-black text-gray-400 uppercase tracking-widest mb-4">Diagnostics</h3>
+        <div class="relative w-36 h-36 flex items-center justify-center">
+          <svg class="w-full h-full transform -rotate-90">
+            <circle cx="72" cy="72" r="60" stroke="currentColor" class="text-gray-200 dark:text-gray-800" stroke-width="8" fill="transparent" />
+            <circle cx="72" cy="72" r="60" stroke="currentColor" class="text-cyan-500 transition-all duration-1000" stroke-width="8" fill="transparent"
+              [style.stroke-dasharray]="377" 
+              [style.stroke-dashoffset]="377 - (377 * matchScore()) / 100" />
+          </svg>
+          <div class="absolute flex flex-col items-center">
+            <span class="text-3xl font-black text-gray-900 dark:text-gray-100 tracking-tighter">{{ matchScore() }}%</span>
+            <span class="text-[9px] font-black text-gray-400 uppercase tracking-widest mt-0.5">Match Rating</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="w-full mt-6 text-left">
+        <div class="bg-gray-950 p-4 rounded-2xl border border-gray-800 font-mono text-[11px] text-gray-300 leading-normal space-y-2 relative shadow-md">
+          <p class="text-cyan-400 flex items-center gap-1">
+            <span class="text-gray-600">></span> SCAN STATUS: COMPLETE
+          </p>
+          <p class="text-gray-400">{{ diagnosticText() }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="lg:col-span-8 space-y-6">
+      <div>
+        <h3 class="text-xs font-black text-gray-400 uppercase tracking-widest mb-4">Toggle Stack Requirements</h3>
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
+          @for (skill of availableSkills; track skill) {
+            @let selected = selectedSkills().includes(skill);
+            @let isJoshHas = joshSkills().includes(skill.toLowerCase()) || (skill.startsWith('Angular') && joshSkills().some(js => js.includes('angular')));
+            
+            <button 
+              (click)="toggleSkill(skill)"
+              [class]="selected 
+                ? (isJoshHas ? 'bg-green-500/10 border-green-500 text-green-700 dark:text-green-400 dark:bg-green-500/5' : 'bg-red-500/10 border-red-500 text-red-700 dark:text-red-400 dark:bg-red-500/5') 
+                : 'bg-white dark:bg-[#0d1117] border-gray-200 dark:border-gray-800 text-gray-600 dark:text-gray-400 hover:border-cyan-500/40'"
+              class="flex items-center justify-between px-3 py-2.5 rounded-2xl border text-[11px] font-bold text-left transition-all duration-300">
+              <div class="flex items-center gap-2 truncate">
+                <span class="w-1.5 h-1.5 rounded-full" [class]="selected ? (isJoshHas ? 'bg-green-500' : 'bg-red-500') : 'bg-gray-300 dark:bg-gray-700'"></span>
+                <span class="truncate">{{ skill }}</span>
+              </div>
+            </button>
+          }
+        </div>
+      </div>
+
+      @if (selectedSkills().length > 0) {
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4 border-t border-gray-100 dark:border-gray-800 animate-in fade-in duration-300">
+          <div class="space-y-2">
+            <h4 class="text-[10px] font-black text-green-600 dark:text-green-500 uppercase tracking-wider flex items-center gap-1.5">Matched Skills ({{ matchingSkills().length }})</h4>
+            <div class="flex flex-wrap gap-1">
+              @for (match of matchingSkills(); track match) {
+                <span class="px-2 py-0.5 rounded-lg text-[10px] font-bold bg-green-500/10 text-green-600 dark:text-green-400 border border-green-500/20">{{ match }}</span>
+              }
+            </div>
+          </div>
+          <div class="space-y-2">
+            <h4 class="text-[10px] font-black text-red-500 uppercase tracking-wider flex items-center gap-1.5">Gaps ({{ missingSkills().length }})</h4>
+            <div class="flex flex-wrap gap-1">
+              @for (miss of missingSkills(); track miss) {
+                <span class="px-2 py-0.5 rounded-lg text-[10px] font-bold bg-red-500/10 text-red-500 dark:text-red-400 border border-red-500/20">{{ miss }}</span>
+              }
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</div>
