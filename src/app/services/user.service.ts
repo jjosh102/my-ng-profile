@@ -7,7 +7,7 @@ import { UserProfile } from '../models/user.model';
 export class UserService {
   private readonly _user: UserProfile = {
     name: 'Josh J Piluden',
-    title: 'Senior Application Developer',
+    title: '.NET Developer',
     bio: 'I\'m a .NET dev who loves building things and nerding out over new tech—always learning and hacking away.',
     githubUrl: 'https://github.com/jjosh102',
     email: 'joshuajpiluden@gmail.com',
