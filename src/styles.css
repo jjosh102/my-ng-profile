@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+app-root {
+  display: block;
+}
+
 @variant dark (&:where(.dark, .dark *));
 
 :root {
