@@ -9,12 +9,95 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+  
+  <!-- Prevent theme blip before app loads -->
+  <script>
+    const storedTheme = localStorage.getItem('app-theme');
+    if (storedTheme === 'dark' || (!storedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+      document.body.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+      document.body.classList.remove('dark');
+    }
+  </script>
+
   <style>
-    /* Prevent Flash of Unstyled Content (FOUC) while Tailwind CSS loads */
-    app-root { display: none; }
+    /* Inline styles for cold start loading screen */
+    body {
+      margin: 0;
+      background-color: #f8fafc;
+      color: #0f172a;
+    }
+    body.dark {
+      background-color: #0d1117;
+      color: #f1f5f9;
+    }
+    .cold-start-loader {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background-color: #f8fafc;
+      z-index: 9999;
+    }
+    body.dark .cold-start-loader {
+      background-color: #0d1117;
+    }
+    .logo-container {
+      position: relative;
+      margin-bottom: 2.5rem;
+    }
+    .logo-pulse {
+      position: absolute;
+      inset: -0.5rem;
+      border-radius: 50%;
+      background: linear-gradient(to top right, #3b82f6, #a855f7);
+      opacity: 0.5;
+      filter: blur(8px);
+      animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+    .logo-img {
+      position: relative;
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background-color: white;
+      padding: 0.25rem;
+      z-index: 10;
+    }
+    body.dark .logo-img {
+      background-color: #0d1117;
+    }
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid rgba(59, 130, 246, 0.2);
+      border-left-color: #3b82f6;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: .5; transform: scale(1.1); }
+    }
   </style>
 </head>
 <body>
-  <app-root></app-root>
+  <app-root>
+    <div class="cold-start-loader">
+      <div class="logo-container">
+        <div class="logo-pulse"></div>
+        <img src="jjosh-logo.png" alt="Loading..." class="logo-img" />
+      </div>
+      <div class="spinner"></div>
+    </div>
+  </app-root>
 </body>
 </html>
