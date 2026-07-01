@@ -70,15 +70,6 @@ export interface CommitDisplay {
   commitUrl: string;
 }
 
-export interface Contribution {
-  date: string;
-  contributionCount: number;
-}
-
-export interface GithubContributions {
-  contributions: Contribution[];
-}
-
 
 export interface Owner {
   login: string;

@@ -3,7 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { catchError, map, mergeMap, Observable, of, retry, retryWhen, tap, throwError, timer } from 'rxjs';
 import { FailureResult, Result, SuccessResult } from '../models/result.model';
 import { LocalStorageCacheService } from './localStorage.service';
-import { CommitDisplay, Contribution, GithubCommit, GithubContributions, GithubRepo, GithubRepoStats } from '../models/github.model';
+import { CommitDisplay, GithubCommit, GithubRepo, GithubRepoStats } from '../models/github.model';
 
 @Injectable({
   providedIn: 'root',
@@ -21,24 +21,6 @@ export class GithubService {
     const cacheKey = `languages-${repoName}`;
     const endpoint = `${this.REPO_ENDPOINT}/${repoName}/languages`;
     return this.getAndCache<Record<string, number>>(endpoint, cacheKey, 30 * 24 * this.CACHE_HOUR_MS );
-  }
-
-  public getContributions(): Observable<Result<readonly Contribution[]>> {
-    const cacheKey = 'contributions';
-    const endpoint = 'https://obaki-core.onrender.com/api/v1/github-contributions';
-
-    return this.getAndCache<GithubContributions>(endpoint, cacheKey, this.CACHE_HOUR_MS , true).pipe(
-      map(result => {
-        if (result.isSuccess && result.value?.contributions) {
-          const contributions: readonly Contribution[] = result.value.contributions.map(c => ({
-            date: new Date(c.date).toISOString(),
-            contributionCount: Number(c.contributionCount)
-          }));
-          return { isSuccess: true, value: contributions } as SuccessResult<readonly Contribution[]>;
-        }
-        return { isSuccess: false, error: 'Failed to fetch contributions.' } as FailureResult;
-      })
-    );
   }
 
   public getCommitsForRepo(repoName: string): Observable<Result<readonly CommitDisplay[]>> {
@@ -195,22 +177,12 @@ export class GithubService {
       }),
 
       catchError((error: HttpErrorResponse): Observable<T> => {
-        const isRateLimited = error.status === 403 &&
-          error.headers.has('X-RateLimit-Remaining') &&
-          error.headers.get('X-RateLimit-Remaining') === '0';
-
-        if (isRateLimited) {
-          console.warn('Rate limit exceeded. Falling back to proxy...');
-          const proxyUrl = `https://obaki-core.onrender.com/api/v1/github-proxy?url=${this.BASE_ADDRESS}${endpoint}`;
-          return this.fetchDataAndHandleErrors<T>(proxyUrl, true);
-        } else {
-          let errorMessage = `HTTP Error: ${error.status} - ${error.message}`;
-          if (error.status === 0) {
-            errorMessage = 'Network error or CORS restriction. The API might be down or blocking the request.';
-          }
-          console.error(errorMessage, error);
-          return throwError(() => new Error(errorMessage));
+        let errorMessage = `HTTP Error: ${error.status} - ${error.message}`;
+        if (error.status === 0) {
+          errorMessage = 'Network error or CORS restriction. The API might be down or blocking the request.';
         }
+        console.error(errorMessage, error);
+        return throwError(() => new Error(errorMessage));
       })
     );
   }

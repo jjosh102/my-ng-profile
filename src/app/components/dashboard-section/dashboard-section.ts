@@ -2,7 +2,6 @@ import { Component, signal } from '@angular/core';
 import { Projects } from "../projects/projects";
 import { Footer } from '../footer/footer';
 import { UserProfileCard } from './user-profile-card/user-profile-card';
-import { ActivityPulse } from "../charts/activity-pulse/activity-pulse";
 import { Stats } from "./stats/stats";
 import { Skills } from './skills/skills';
 import { Experience } from './experience/experience';
@@ -15,7 +14,6 @@ import { CompatibilityAnalyzer } from './compatibility-analyzer/compatibility-an
     Projects, 
     UserProfileCard, 
     Footer, 
-    ActivityPulse, 
     Stats, 
     Skills,
     Experience,

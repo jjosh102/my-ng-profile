@@ -19,6 +19,8 @@ export class ThemeService {
 
     effect(() => {
       localStorage.setItem(this.STORAGE_KEY, this.theme());
+      this.document.documentElement.classList.remove('dark', 'light');
+      this.document.documentElement.classList.add(`${this.theme()}`);
       this.document.body.classList.remove('dark', 'light');
       this.document.body.classList.add(`${this.theme()}`);
     });
