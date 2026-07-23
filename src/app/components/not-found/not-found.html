@@ -1,20 +1,5 @@
-<div class="min-h-[60vh] flex flex-col items-center justify-center p-8 text-center">
-  <div class="relative">
-    <h1 class="text-[8rem] font-black text-gray-100 dark:text-gray-800/50 leading-none">404</h1>
-    <img src="catstello.png" alt="GitHub Catstello Octocat" class="w-48 sm:w-64 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 drop-shadow-2xl">
-  </div>
-
-  <div class="mt-12 space-y-4 max-w-lg">
-    <h2 class="text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-gray-100 tracking-tight">
-      Lost in space?
-    </h2>
-    <p class="text-gray-500 dark:text-gray-400 text-lg leading-relaxed">
-      The page you're looking for has drifted away. Let's get you back to familiar territory.
-    </p>
-  </div>
-
-  <a [routerLink]="['']"
-     class="mt-10 px-8 py-3 rounded-2xl bg-blue-600 text-white font-bold hover:bg-blue-700 shadow-xl shadow-blue-500/20 transition-all duration-300 transform hover:scale-105 active:scale-95">
-    Back to Home
-  </a>
-</div>
+<section class='not-found'>
+  <p class='not-found-code'>404</p>
+  <h1 class='not-found-title'>Nothing here.</h1>
+  <a routerLink='/' class='not-found-link'>Back home</a>
+</section>

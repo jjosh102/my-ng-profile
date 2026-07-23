@@ -1,56 +1,35 @@
-<article class="flex flex-col group">
-  <header class="flex flex-col sm:flex-row lg:flex-col items-center sm:items-start lg:items-start gap-6 lg:gap-0">
-    <div class="relative flex-shrink-0">
-      <div class="absolute inset-0 bg-gradient-to-tr from-blue-500 to-purple-500 rounded-full blur opacity-20 group-hover:opacity-40 transition-opacity duration-500"></div>
-      <img
-        [src]="user.avatarUrl"
-        alt="Profile Picture of {{ user.name }}"
-        class="relative w-32 h-32 sm:w-36 sm:h-36 lg:w-full lg:h-auto rounded-full border-4 border-white dark:border-[#0d1117] shadow-2xl shadow-blue-500/10 dark:shadow-none"
-      />
-      <div class="absolute bottom-2 right-4 sm:right-2 w-6 h-6 bg-green-500 border-4 border-white dark:border-[#0d1117] rounded-full shadow-sm"></div>
+<section class='hero'>
+  <div class='hero-copy'>
+    <p class='eyebrow'>Software developer · Philippines</p>
+    <h1 class='hero-title'>I turn tedious work into simple software.</h1>
+    <p class='hero-intro'>{{ user.bio }}</p>
+
+    <div class='social-links'>
+      @for (link of user.socialLinks; track link.name) {
+        <a [href]='link.url' target='_blank' rel='noopener noreferrer' class='social-link'>
+          {{ link.name }}<span class='social-arrow' aria-hidden='true'>↗</span>
+        </a>
+      }
     </div>
+  </div>
 
-    <div class="grow mt-2 sm:mt-0 lg:mt-6 text-center sm:text-left lg:text-left">
-      <h1 class="text-2xl sm:text-3xl font-extrabold text-gray-900 dark:text-gray-100 tracking-tight leading-none">
-        {{ user.name }}
-      </h1>
-      <p class="text-blue-600 dark:text-blue-400 font-bold text-sm mt-2 uppercase tracking-wider">
-        {{ user.title }}
-      </p>
-      <p class="text-gray-600 dark:text-gray-400 mt-4 text-base leading-relaxed max-w-xs mx-auto sm:mx-0 lg:mx-0">
-        {{ user.bio }}
-      </p>
-    </div>
-  </header>
+  <div class='hero-portrait-wrap'>
+    <img
+      [src]='user.avatarUrl'
+      width='180'
+      height='180'
+      alt='{{ user.name }}'
+      class='hero-portrait'
+      fetchpriority='high'
+    />
+  </div>
+</section>
 
-  <section class="flex flex-col gap-3 mt-8">
-    @for (link of user.socialLinks; track link.name) {
-      <a [href]="link.url" target="_blank"
-         class="flex items-center justify-between px-4 py-3 rounded-2xl glass hover:bg-blue-50/50 dark:hover:bg-gray-800/50 transition-all duration-300 group/link">
-        <div class="flex items-center gap-3">
-          <div class="p-2 rounded-lg bg-gray-100 dark:bg-gray-800 group-hover/link:bg-white dark:group-hover/link:bg-gray-700 transition-colors">
-            @if (link.icon === 'github') {
-              <svg class="w-5 h-5 fill-current text-gray-700 dark:text-gray-300" viewBox="0 0 24 24">
-                <path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.11.82-.26.82-.577v-2.165c-3.338.726-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.757-1.333-1.757-1.09-.745.083-.73.083-.73 1.205.084 1.84 1.237 1.84 1.237 1.07 1.835 2.807 1.305 3.492.997.108-.774.42-1.305.763-1.605-2.665-.305-5.466-1.335-5.466-5.93 0-1.31.467-2.38 1.235-3.22-.123-.305-.535-1.53.117-3.18 0 0 1.008-.322 3.3 1.23.957-.266 1.98-.398 3-.403 1.02.005 2.043.137 3 .403 2.29-1.552 3.297-1.23 3.297-1.23.653 1.65.24 2.875.117 3.18.77.84 1.235 1.91 1.235 3.22 0 4.61-2.803 5.62-5.475 5.92.43.37.823 1.1.823 2.22v3.293c0 .32.217.694.825.577C20.565 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z" />
-              </svg>
-            } @else if (link.icon === 'linkedin') {
-              <svg class="w-5 h-5 fill-current text-gray-700 dark:text-gray-300" viewBox="0 0 24 24">
-                <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/>
-              </svg>
-            } @else if (link.icon === 'email') {
-              <svg class="w-5 h-5 fill-current text-gray-700 dark:text-gray-300" viewBox="0 0 24 24">
-                <path d="M12 12.713l11.985-7.99A1.5 1.5 0 0022.5 3h-21a1.5 1.5 0 00-1.485 1.723L12 12.713zM12 14.287L.015 6.297A1.5 1.5 0 000 7.5v9a1.5 1.5 0 001.5 1.5h21a1.5 1.5 0 001.5-1.5v-9a1.5 1.5 0 00-.015-.203L12 14.287z" />
-              </svg>
-            }
-          </div>
-          <span class="text-sm font-bold text-gray-700 dark:text-gray-300">{{ link.name }}</span>
-        </div>
-        <svg class="w-4 h-4 text-gray-400 group-hover/link:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-        </svg>
-      </a>
-    }
-  </section>
-
-  <hr class="border-t border-gray-200/50 dark:border-gray-800/50 my-8" />
-</article>
+<section class='experience-strip' aria-labelledby='experience-title'>
+  <h2 id='experience-title' class='section-label'>Experience</h2>
+  <p class='company-list'>
+    IBM <span class='company-separator'>/</span>
+    Accenture <span class='company-separator'>/</span>
+    Texas Instruments
+  </p>
+</section>

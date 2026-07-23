@@ -1,85 +1,38 @@
-import { Component, computed, DestroyRef, inject, OnInit, signal } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
 import { GithubService } from '../../services/github.service';
 import { GithubRepo } from '../../models/github.model';
 import { ProjectCard } from './project-card/project-card';
-import { ProjectSpotlight } from './project-spotlight/project-spotlight';
-import { ProjectCardSkeleton } from "./project-card-skeleton/project-card-skeleton";
-import { GetLanguageColorPipe } from '../../shared/pipes/get-language-color-pipe';
+import { ProjectCardSkeleton } from './project-card-skeleton/project-card-skeleton';
 
 @Component({
   selector: 'app-projects',
-  imports: [ProjectCard, ProjectSpotlight, ProjectCardSkeleton, GetLanguageColorPipe],
+  imports: [ProjectCard, ProjectCardSkeleton],
   templateUrl: './projects.html',
 })
 export class Projects implements OnInit {
+  private readonly githubService = inject(GithubService);
+  private readonly destroyRef = inject(DestroyRef);
 
-  private githubService = inject(GithubService);
-  private destroyRef = inject(DestroyRef);
-  repos = signal<readonly GithubRepo[]>([]);
-  isLoading = signal<boolean>(true);
-  searchQuery = signal<string>('');
-  selectedLanguage = signal<string | null>(null);
+  readonly repos = signal<readonly GithubRepo[]>([]);
+  readonly isLoading = signal(true);
+  readonly loadFailed = signal(false);
 
-  spotlightRepo = computed(() => {
-    const allRepos = this.repos();
-    return allRepos.length > 0 ? allRepos[0] : null;
-  });
-
-  languages = computed(() => {
-    const langs = new Set<string>();
-    this.repos().forEach(repo => {
-      if (repo.language) langs.add(repo.language);
-    });
-    return Array.from(langs).sort();
-  });
-
-  filteredRepos = computed(() => {
-    const query = this.searchQuery().toLowerCase().trim();
-    const lang = this.selectedLanguage();
-    const spotlight = this.spotlightRepo();
-    
-    let filtered = this.repos();
-
-    // Exclude spotlight repo if no filters are active
-    if (!query && !lang && spotlight) {
-      filtered = filtered.filter(repo => repo.id !== spotlight.id);
-    }
-
-    if (lang) {
-      filtered = filtered.filter(repo => repo.language === lang);
-    }
-
-    if (query) {
-      filtered = filtered.filter(repo =>
-        repo.name.toLowerCase().includes(query) ||
-        repo.description?.toLowerCase().includes(query) ||
-        repo.topics?.some(topic => topic.toLowerCase().includes(query)) ||
-        repo.language?.toLowerCase().includes(query)
-      );
-    }
-
-    return filtered;
-  });
-
-  ngOnInit() {
-    const subscription = this.githubService.getReposToBeShown()
-      .subscribe({
-        next: (result) => {
-          if (result.isSuccess && result.value) {
-            this.repos.set(result.value);
-          }
-        },
-        error: () => {
-          this.isLoading.set(false);
-        },
-        complete: () => {
-          this.isLoading.set(false);
+  ngOnInit(): void {
+    const subscription = this.githubService.getReposToBeShown().subscribe({
+      next: (result) => {
+        if (result.isSuccess && result.value) {
+          this.repos.set(result.value);
+        } else {
+          this.loadFailed.set(true);
         }
-      },);
-
-    this.destroyRef.onDestroy(() => {
-      subscription.unsubscribe();
+      },
+      error: () => {
+        this.loadFailed.set(true);
+        this.isLoading.set(false);
+      },
+      complete: () => this.isLoading.set(false),
     });
-  }
 
+    this.destroyRef.onDestroy(() => subscription.unsubscribe());
+  }
 }
