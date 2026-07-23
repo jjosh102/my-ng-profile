@@ -4,6 +4,7 @@ import { FormatTimeAgoPipe } from '../../../shared/pipes/format-time-ago-pipe';
 
 @Component({
   selector: 'app-project-card',
+  standalone: true,
   imports: [FormatTimeAgoPipe],
   templateUrl: './project-card.html',
 })

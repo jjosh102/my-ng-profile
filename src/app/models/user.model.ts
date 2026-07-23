@@ -10,6 +10,5 @@ export interface UserProfile {
   bio: string;
   githubUrl: string;
   email: string;
-  avatarUrl: string;
   socialLinks: SocialLink[];
 }

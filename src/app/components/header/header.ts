@@ -4,6 +4,7 @@ import { ThemeService } from '../../services/theme.service';
 
 @Component({
   selector: 'app-header',
+  standalone: true,
   imports: [RouterLink],
   templateUrl: './header.html',
 })

@@ -3,6 +3,7 @@ import { UserService } from '../../../services/user.service';
 
 @Component({
   selector: 'app-user-profile-card',
+  standalone: true,
   imports: [],
   templateUrl: './user-profile-card.html'
 })

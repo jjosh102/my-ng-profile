@@ -6,6 +6,7 @@ import { ProjectCardSkeleton } from './project-card-skeleton/project-card-skelet
 
 @Component({
   selector: 'app-projects',
+  standalone: true,
   imports: [ProjectCard, ProjectCardSkeleton],
   templateUrl: './projects.html',
 })

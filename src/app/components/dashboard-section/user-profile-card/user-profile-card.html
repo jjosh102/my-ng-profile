@@ -5,23 +5,12 @@
     <p class='hero-intro'>{{ user.bio }}</p>
 
     <div class='social-links'>
-      @for (link of user.socialLinks; track link.name) {
+      @if (user.socialLinks[0]; as link) {
         <a [href]='link.url' target='_blank' rel='noopener noreferrer' class='social-link'>
-          {{ link.name }}<span class='social-arrow' aria-hidden='true'>↗</span>
+          {{ link.name }}<span class='social-arrow' aria-hidden='true'>&#8599;</span>
         </a>
       }
     </div>
-  </div>
-
-  <div class='hero-portrait-wrap'>
-    <img
-      [src]='user.avatarUrl'
-      width='180'
-      height='180'
-      alt='{{ user.name }}'
-      class='hero-portrait'
-      fetchpriority='high'
-    />
   </div>
 </section>
 
