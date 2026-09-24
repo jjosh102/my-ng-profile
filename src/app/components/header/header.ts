@@ -10,6 +10,7 @@ import { ThemeService } from '../../services/theme.service';
 })
 export class Header {
   private readonly themeService = inject(ThemeService);
+  readonly isDarkTheme = this.themeService.isDarkTheme;
 
   onThemeToggle(): void {
     this.themeService.toggleTheme();

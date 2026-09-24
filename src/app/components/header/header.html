@@ -1,15 +1,14 @@
 <header class='site-header'>
   <div class='header-inner'>
-    <a routerLink='/' class='wordmark'>Josh Piluden</a>
+    <a routerLink='/' class='wordmark'>Josh Piluden<span class='wordmark-period'>.</span></a>
 
     <nav class='primary-nav' aria-label='Primary navigation'>
-      <a href='/#projects' class='nav-link projects-nav-link'>Projects</a>
-      <a href='https://github.com/jjosh102' target='_blank' rel='noopener noreferrer' class='nav-link'>GitHub</a>
+      <a href='https://github.com/jjosh102' target='_blank' rel='noopener noreferrer' class='nav-link'>GitHub <span aria-hidden='true'>↗</span></a>
       <button
         type='button'
         class='theme-toggle'
-        aria-label='Toggle color theme'
-        title='Toggle color theme'
+        [attr.aria-label]='isDarkTheme() ? "Switch to light theme" : "Switch to dark theme"'
+        [attr.title]='isDarkTheme() ? "Switch to light theme" : "Switch to dark theme"'
         (click)='onThemeToggle()'
       >
         <svg class='theme-icon theme-icon-sun' viewBox='0 0 24 24' fill='none' stroke='currentColor' aria-hidden='true'>
