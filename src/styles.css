@@ -229,6 +229,13 @@ app-root, app-header, app-dashboard-section, app-footer { display: block; }
   letter-spacing: -.04em;
 }
 
+.project-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: .5rem 1.25rem;
+}
+
 .project-link {
   color: var(--accent);
   font-size: .875rem;
@@ -288,6 +295,7 @@ app-root, app-header, app-dashboard-section, app-footer { display: block; }
 @media (max-width: 390px) {
   .hero-actions { align-items: flex-start; flex-direction: column; }
   .project-heading { align-items: flex-start; flex-direction: column; gap: .5rem; }
+  .project-actions { justify-content: flex-start; }
 }
 
 @media (prefers-reduced-motion: reduce) {
