@@ -1,43 +1,41 @@
 import { computed, DOCUMENT, effect, inject, Injectable, signal } from '@angular/core';
 import { Theme } from '../models/theme.model';
 
-@Injectable({
-  providedIn: 'root',
-})
-
+@Injectable({ providedIn: 'root' })
 export class ThemeService {
-  private readonly themeValue = signal<Theme>('light');
-  private readonly STORAGE_KEY = 'app-theme';
-  private readonly document = inject(DOCUMENT)
+  private readonly document = inject(DOCUMENT);
+  private readonly storageKey = 'app-theme';
+  private readonly themeValue = signal<Theme>(this.readInitialTheme());
 
   readonly theme = this.themeValue.asReadonly();
   readonly isDarkTheme = computed(() => this.theme() === 'dark');
 
   constructor() {
-
-    this.initializeTheme();
-
     effect(() => {
-      localStorage.setItem(this.STORAGE_KEY, this.theme());
-      this.document.documentElement.classList.remove('dark', 'light');
-      this.document.documentElement.classList.add(`${this.theme()}`);
-      this.document.body.classList.remove('dark', 'light');
-      this.document.body.classList.add(`${this.theme()}`);
+      const theme = this.theme();
+      this.document.documentElement.classList.toggle('dark', theme === 'dark');
+      this.document.documentElement.classList.toggle('light', theme === 'light');
+      this.document.querySelector<HTMLMetaElement>('meta[name="theme-color"]')
+        ?.setAttribute('content', theme === 'dark' ? '#141416' : '#FAFAFA');
+      try {
+        this.document.defaultView?.localStorage.setItem(this.storageKey, theme);
+      } catch {
+        // Storage may be blocked; the theme toggle should still work.
+      }
     });
   }
 
   toggleTheme(): void {
-    this.themeValue.update(currentTheme => (currentTheme === 'light' ? 'dark' : 'light'));
+    this.themeValue.update(theme => theme === 'dark' ? 'light' : 'dark');
   }
 
-  private initializeTheme(): void {
-    const storedTheme = localStorage.getItem(this.STORAGE_KEY) as Theme;
-
-    if (storedTheme) {
-      this.themeValue.set(storedTheme);
-    } else {
-      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      this.themeValue.set(prefersDark ? 'dark' : 'light');
+  private readInitialTheme(): Theme {
+    try {
+      const stored = this.document.defaultView?.localStorage.getItem(this.storageKey);
+      if (stored === 'dark' || stored === 'light') return stored;
+    } catch {
+      // Fall back to the site's default dark palette.
     }
+    return 'dark';
   }
 }

@@ -6,25 +6,27 @@
   <base href='/'>
   <meta name='viewport' content='width=device-width, initial-scale=1'>
   <meta name='description' content='Josh Piluden is a software developer in the Philippines building web apps and useful tools with .NET and Angular.'>
-  <meta name='theme-color' content='#f7f8f9'>
+  <meta name='theme-color' content='#141416'>
+  <meta name='color-scheme' content='dark light'>
   <link rel='icon' type='image/svg+xml' href='favicon.svg'>
   <script>
-    const storedTheme = localStorage.getItem('app-theme');
-    if (storedTheme === 'dark' || (!storedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-      document.documentElement.classList.add('dark');
-      document.body.classList.add('dark');
-    }
+    // Set the saved theme before Angular boots; body is not available yet.
+    (() => {
+      let theme = 'dark';
+      try {
+        const stored = localStorage.getItem('app-theme');
+        if (stored === 'light' || stored === 'dark') theme = stored;
+      } catch {
+        // Storage may be blocked.
+      }
+      document.documentElement.classList.add(theme);
+      document.querySelector('meta[name="theme-color"]')
+        .setAttribute('content', theme === 'light' ? '#FAFAFA' : '#141416');
+    })();
   </script>
   <style>
-    body {
-      margin: 0;
-      background: #f7f8f9;
-      color: #171a1f;
-    }
-    body.dark {
-      background: #0e1114;
-      color: #f1f3f5;
-    }
+    body { margin: 0; background: #141416; color: #F5F5F7; }
+    html.light body { background: #FAFAFA; color: #18181B; }
     .cold-start-loader {
       position: fixed;
       inset: 0;

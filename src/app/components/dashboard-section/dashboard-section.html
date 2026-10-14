@@ -1,23 +1,34 @@
 <section class='hero' aria-labelledby='intro-title'>
-  <p class='eyebrow'><span class='eyebrow-dot' aria-hidden='true'></span>Software developer · Philippines</p>
-  <h1 id='intro-title'>Hi, I'm <span>Josh.</span></h1>
-  <p class='hero-intro'>I build web apps and tools that make everyday work a little easier. Most of my work is in C#/.NET, Angular, and PostgreSQL.</p>
-  <div class='hero-actions'>
-    <a class='primary-link' href='#work'>See what I'm building <span aria-hidden='true'>↘</span></a>
-    <a class='text-link' href='mailto:joshuajpiluden@gmail.com'>Email me <span aria-hidden='true'>↗</span></a>
+  <div class='hero-layout'>
+    <div class='hero-copy'>
+      <p class='eyebrow'><span class='eyebrow-dot' aria-hidden='true'></span>Software developer · Philippines</p>
+      <h1 id='intro-title'>Hi, I'm <span>Josh.</span></h1>
+      <p class='hero-intro'>I build web apps and tools that make everyday work a little easier. Most of my work is in C#/.NET, Angular, and PostgreSQL.</p>
+      <div class='hero-actions'>
+        <a class='primary-link' href='#work'>See what I'm building <span aria-hidden='true'>↘</span></a>
+        <a class='text-link' href='mailto:joshuajpiluden@gmail.com'>Email me <span aria-hidden='true'>↗</span></a>
+      </div>
+    </div>
+    <aside class='hero-note' aria-label='Current side project'>
+      <span class='hero-note-kicker'>On my desk</span>
+      <h2>Bagiyo<span aria-hidden='true'>.</span></h2>
+      <p>A community app bringing Baguio and Benguet alerts and everyday tools together.</p>
+      <a href='https://jjosh.dev/work/bagiyo/' target='_blank' rel='noopener noreferrer'>Behind the project <span aria-hidden='true'>↗</span></a>
+    </aside>
   </div>
 </section>
 
-<section class='section-row' aria-labelledby='about-title'>
-  <h2 id='about-title' class='section-label'>A bit about me</h2>
+<section id='about' class='section-row' aria-labelledby='about-title'>
+  <h2 id='about-title' class='section-label' data-number='01 / Background'>A bit about me</h2>
   <div class='section-body'>
     <p>I'm a software developer based in the Philippines. I've worked at IBM, Accenture, and Texas Instruments. I like useful software, clear interfaces, and keeping things simple.</p>
   </div>
 </section>
 
 <section id='work' class='section-row work-section' aria-labelledby='work-title'>
-  <h2 id='work-title' class='section-label'>What I'm building</h2>
+  <h2 id='work-title' class='section-label' data-number='02 / Selected work'>What I'm building</h2>
   <div class='section-body'>
+    <p class='project-kicker'>Community project</p>
     <div class='project-heading'>
       <h3>Bagiyo</h3>
       <div class='project-actions'>
@@ -31,11 +42,9 @@
 </section>
 
 <section class='section-row' aria-labelledby='notes-title'>
-  <h2 id='notes-title' class='section-label'>From the workbench</h2>
+  <h2 id='notes-title' class='section-label' data-number='03 / Writing'>From the workbench</h2>
   <div class='section-body'>
     <p>I occasionally write down lessons from the things I build, including the parts that did not work the first time.</p>
     <a class='text-link more-link' href='https://jjosh.dev/notes/' target='_blank' rel='noopener noreferrer'>Read my notes on jjosh.dev <span aria-hidden='true'>↗</span></a>
   </div>
 </section>
-
-<app-footer />

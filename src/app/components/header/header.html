@@ -1,25 +1,28 @@
 <header class='site-header'>
   <div class='header-inner'>
-    <a routerLink='/' class='wordmark'>Josh Piluden<span class='wordmark-period'>.</span></a>
+    <a routerLink='/' class='wordmark' aria-label='Josh Piluden, home'>Josh Piluden<span class='wordmark-period'>.</span></a>
 
     <nav class='primary-nav' aria-label='Primary navigation'>
-      <a href='https://jjosh.dev/notes/' target='_blank' rel='noopener noreferrer' class='nav-link'>Notes <span aria-hidden='true'>↗</span></a>
-      <a href='https://github.com/jjosh102' target='_blank' rel='noopener noreferrer' class='nav-link'>GitHub <span aria-hidden='true'>↗</span></a>
-      <button
-        type='button'
-        class='theme-toggle'
-        [attr.aria-label]='isDarkTheme() ? "Switch to light theme" : "Switch to dark theme"'
-        [attr.title]='isDarkTheme() ? "Switch to light theme" : "Switch to dark theme"'
-        (click)='onThemeToggle()'
-      >
-        <svg class='theme-icon theme-icon-sun' viewBox='0 0 24 24' fill='none' stroke='currentColor' aria-hidden='true'>
-          <circle cx='12' cy='12' r='4' stroke-width='1.75' />
-          <path d='M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.65 17.65l1.42 1.42M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.65 6.35l1.42-1.42' stroke-width='1.75' stroke-linecap='round' />
-        </svg>
-        <svg class='theme-icon theme-icon-moon' viewBox='0 0 24 24' fill='none' stroke='currentColor' aria-hidden='true'>
-          <path d='M20.1 15.4A8.5 8.5 0 0 1 8.6 3.9 8.5 8.5 0 1 0 20.1 15.4Z' stroke-width='1.75' stroke-linejoin='round' />
-        </svg>
-      </button>
+      <a routerLink='/' fragment='work' class='nav-link'>Work</a>
+      <a routerLink='/' fragment='about' class='nav-link'>About</a>
+      <a href='https://jjosh.dev/notes/' target='_blank' rel='noopener noreferrer' class='nav-link' aria-label='Notes on jjosh.dev (opens in a new tab)'>Notes <span aria-hidden='true'>↗</span></a>
+      <a href='https://github.com/jjosh102' target='_blank' rel='noopener noreferrer' class='nav-link' aria-label='GitHub (opens in a new tab)'>GitHub <span aria-hidden='true'>↗</span></a>
     </nav>
+
+    <button
+      type='button'
+      class='theme-toggle'
+      [attr.aria-label]='isDarkTheme() ? "Switch to light theme" : "Switch to dark theme"'
+      [attr.title]='isDarkTheme() ? "Switch to light theme" : "Switch to dark theme"'
+      (click)='onThemeToggle()'
+    >
+      <svg class='theme-icon theme-icon-sun' viewBox='0 0 24 24' fill='none' stroke='currentColor' aria-hidden='true'>
+        <circle cx='12' cy='12' r='4' stroke-width='1.75' />
+        <path d='M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.65 17.65l1.42 1.42M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.65 6.35l1.42-1.42' stroke-width='1.75' stroke-linecap='round' />
+      </svg>
+      <svg class='theme-icon theme-icon-moon' viewBox='0 0 24 24' fill='none' stroke='currentColor' aria-hidden='true'>
+        <path d='M20.1 15.4A8.5 8.5 0 0 1 8.6 3.9 8.5 8.5 0 1 0 20.1 15.4Z' stroke-width='1.75' stroke-linejoin='round' />
+      </svg>
+    </button>
   </div>
 </header>
