@@ -1,41 +1,51 @@
-import { computed, DOCUMENT, effect, inject, Injectable, signal } from '@angular/core';
+import { computed, DestroyRef, DOCUMENT, effect, inject, Injectable, signal } from '@angular/core';
 import { Theme } from '../models/theme.model';
 
 @Injectable({ providedIn: 'root' })
 export class ThemeService {
   private readonly document = inject(DOCUMENT);
   private readonly storageKey = 'app-theme';
-  private readonly themeValue = signal<Theme>(this.readInitialTheme());
+  private readonly media = this.document.defaultView?.matchMedia('(prefers-color-scheme: dark)');
+  private readonly preference = signal<Theme | null>(this.readPreference());
+  private readonly systemDark = signal(this.media?.matches ?? true);
 
-  readonly theme = this.themeValue.asReadonly();
+  readonly theme = computed<Theme>(() => this.preference() ?? (this.systemDark() ? 'dark' : 'light'));
   readonly isDarkTheme = computed(() => this.theme() === 'dark');
 
   constructor() {
+    const controller = new AbortController();
+    this.media?.addEventListener('change', event => this.systemDark.set(event.matches), { signal: controller.signal });
+    this.document.defaultView?.addEventListener('storage', event => {
+      if (event.key === this.storageKey || event.key === null) this.preference.set(this.readPreference());
+    }, { signal: controller.signal });
+    inject(DestroyRef).onDestroy(() => controller.abort());
+
     effect(() => {
       const theme = this.theme();
       this.document.documentElement.classList.toggle('dark', theme === 'dark');
       this.document.documentElement.classList.toggle('light', theme === 'light');
       this.document.querySelector<HTMLMetaElement>('meta[name="theme-color"]')
         ?.setAttribute('content', theme === 'dark' ? '#141416' : '#FAFAFA');
-      try {
-        this.document.defaultView?.localStorage.setItem(this.storageKey, theme);
-      } catch {
-        // Storage may be blocked; the theme toggle should still work.
-      }
     });
   }
 
   toggleTheme(): void {
-    this.themeValue.update(theme => theme === 'dark' ? 'light' : 'dark');
+    const next = this.theme() === 'dark' ? 'light' : 'dark';
+    this.preference.set(next);
+    try {
+      this.document.defaultView?.localStorage.setItem(this.storageKey, next);
+    } catch {
+      // Keep the chosen theme for this session when storage is blocked.
+    }
   }
 
-  private readInitialTheme(): Theme {
+  private readPreference(): Theme | null {
     try {
       const stored = this.document.defaultView?.localStorage.getItem(this.storageKey);
       if (stored === 'dark' || stored === 'light') return stored;
     } catch {
-      // Fall back to the site's default dark palette.
+      // Follow the device when storage is unavailable.
     }
-    return 'dark';
+    return null;
   }
 }

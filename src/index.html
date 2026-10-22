@@ -12,7 +12,7 @@
   <script>
     // Set the saved theme before Angular boots; body is not available yet.
     (() => {
-      let theme = 'dark';
+      let theme = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
       try {
         const stored = localStorage.getItem('app-theme');
         if (stored === 'light' || stored === 'dark') theme = stored;

@@ -2,10 +2,10 @@
   <div class='header-inner'>
     <a routerLink='/' class='wordmark' aria-label='Josh Piluden, home'>Josh Piluden<span class='wordmark-period'>.</span></a>
     <nav class='primary-nav' aria-label='Primary navigation'>
-      <a routerLink='/' fragment='work' class='nav-link'>Work</a>
-      <a routerLink='/' fragment='about' class='nav-link'>About</a>
-      <a href='https://jjosh.dev/notes/' target='_blank' rel='noopener noreferrer' class='nav-link' aria-label='Notes on jjosh.dev (opens in a new tab)'>Notes <span class='nav-external' aria-hidden='true'>↗</span></a>
-      <a href='https://github.com/jjosh102' target='_blank' rel='noopener noreferrer' class='nav-link' aria-label='GitHub (opens in a new tab)'>GitHub <span class='nav-external' aria-hidden='true'>↗</span></a>
+      <a routerLink='/' fragment='about' class='nav-link' [attr.aria-current]='activeSection() === "about" ? "location" : null'>About</a>
+      <a routerLink='/' fragment='work' class='nav-link' [attr.aria-current]='activeSection() === "work" ? "location" : null'>Work</a>
+      <a routerLink='/' fragment='resources' class='nav-link' [attr.aria-current]='activeSection() === "resources" ? "location" : null'>Resources</a>
+      <a routerLink='/' fragment='contact' class='nav-link' [attr.aria-current]='activeSection() === "contact" ? "location" : null'>Contact</a>
     </nav>
     <button
       type='button'

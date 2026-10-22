@@ -47,7 +47,7 @@
   </div>
 </section>
 
-<section class='section-row' aria-labelledby='notes-title'>
+<section id='resources' class='section-row' aria-labelledby='notes-title'>
   <h2 id='notes-title' class='section-label' data-number='03 / Resources'>From the workbench</h2>
   <div class='section-body'>
     <p class='section-lede'>Notes, lessons, and step-by-step walkthroughs from building useful software, including the parts that did not work the first time.</p>
@@ -63,5 +63,17 @@
         <span class='resource-description'>Step-by-step setups and technical workflows worth keeping.</span>
       </a>
     </div>
+  </div>
+</section>
+
+<section id='contact' class='section-row contact-section' aria-labelledby='contact-title'>
+  <h2 id='contact-title' class='section-label' data-number='04 / Contact'>Get in touch</h2>
+  <div class='section-body'>
+    <p>For project questions or a quick hello, email works best.</p>
+    <div class='contact-actions'>
+      <a class='contact-email' [href]='"mailto:" + email'>{{ email }}</a>
+      <button type='button' class='copy-email' (click)='copyEmail()'>Copy email</button>
+    </div>
+    <p class='copy-status' role='status' aria-atomic='true'>{{ copyStatus() }}</p>
   </div>
 </section>

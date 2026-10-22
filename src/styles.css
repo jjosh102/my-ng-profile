@@ -1,4 +1,4 @@
-/* jjosh.dev companion palette. Dark is the default; light is opt-in. */
+/* jjosh.dev companion palette. Follow the device until a theme is chosen. */
 :root, :root.dark {
   color-scheme: dark;
   --background: #141416;
@@ -66,6 +66,7 @@ svg { display: block; max-width: 100%; }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
 ::selection { background: rgba(var(--accent-rgb), .3); color: var(--foreground); }
 app-root, app-header, app-dashboard-section, app-footer { display: block; }
+app-header { position: sticky; top: 0; z-index: 40; }
 .site-shell {
   display: flex;
   flex-direction: column;
@@ -94,9 +95,7 @@ app-root, app-header, app-dashboard-section, app-footer { display: block; }
 
 /* Header: same source and visual order at every breakpoint. */
 .site-header {
-  position: sticky;
-  top: 0;
-  z-index: 40;
+  position: relative;
   border-bottom: 1px solid var(--border);
   background: var(--overlay);
   backdrop-filter: blur(16px);
@@ -137,11 +136,11 @@ app-root, app-header, app-dashboard-section, app-footer { display: block; }
   white-space: nowrap;
   transition: background-color .18s ease, color .18s ease;
 }
-.nav-link:hover, .nav-link:focus-visible {
+.nav-link:hover, .nav-link:focus-visible, .nav-link[aria-current] {
   background: rgba(var(--accent-rgb), .07);
   color: var(--foreground);
 }
-.nav-external { margin-left: .15rem; color: var(--accent); font-size: .8em; }
+.nav-link[aria-current] { text-decoration: underline; text-underline-offset: .45em; }
 .theme-toggle {
   display: grid;
   place-items: center;
@@ -279,7 +278,6 @@ app-root, app-header, app-dashboard-section, app-footer { display: block; }
   gap: clamp(2rem, 6vw, 5rem);
   padding-block: clamp(2.75rem, 5vw, 4.25rem);
   border-top: 1px solid var(--border);
-  scroll-margin-top: 6rem;
 }
 .section-label { margin: .2rem 0 0; color: var(--foreground); font-size: 1.1rem; font-weight: 650; letter-spacing: -.025em; }
 .section-label::before {
@@ -361,6 +359,13 @@ app-root, app-header, app-dashboard-section, app-footer { display: block; }
 .resource-arrow { color: var(--accent-soft); font-size: 1.1rem; }
 .resource-description { color: var(--muted); font-size: .88rem; line-height: 1.65; }
 
+/* Contact stays useful when a mail app or clipboard permission is unavailable. */
+.contact-actions { display: flex; flex-wrap: wrap; align-items: center; gap: .75rem 1.25rem; margin-top: 1rem; }
+.contact-email { display: inline-flex; align-items: center; min-height: 44px; max-width: 100%; overflow-wrap: anywhere; font-weight: 650; }
+.copy-email { min-height: 44px; padding: .55rem .9rem; border: 1px solid var(--border-strong); border-radius: 8px; background: var(--surface); color: var(--foreground); }
+.copy-email:hover { background: var(--surface-soft); }
+.section-body > .copy-status { min-height: 1.6em; margin-top: .65rem; font-size: .85rem; }
+
 /* Footer and routing fallback */
 .site-footer {
   display: flex;
@@ -400,7 +405,7 @@ app-root, app-header, app-dashboard-section, app-footer { display: block; }
   .hero h1 { font-size: clamp(3.2rem, 11.5vw, 4.8rem); }
   .hero-note { max-width: 37rem; }
   .quick-facts { margin-top: 2.6rem; }
-  .section-row { grid-template-columns: 1fr; gap: 1.2rem; padding-block: 2.6rem; scroll-margin-top: 8rem; }
+  .section-row { grid-template-columns: 1fr; gap: 1.2rem; padding-block: 2.6rem; }
   .section-label::before { margin-bottom: .3rem; }
 }
 
