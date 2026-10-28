@@ -26,7 +26,13 @@
 <section id='about' class='section-row' aria-labelledby='about-title'>
   <h2 id='about-title' class='section-label' data-number='01 / Background'>A bit about me</h2>
   <div class='section-body'>
-    <p>I'm a software developer based in the Philippines. I've worked at IBM, Accenture, and Texas Instruments. I like useful software, clear interfaces, and keeping things simple.</p>
+    <p>I'm a software developer based in the Philippines. I like useful software, clear interfaces, and keeping things simple.</p>
+    <ol class='career-history' aria-label='Professional background'>
+      <li><span class='career-period'>2016 – present</span><div><h3>IBM</h3><p>Senior Application Developer</p></div></li>
+      <li><span class='career-period'>2012 – 2016</span><div><h3>Accenture</h3><p>Senior Software Engineer</p></div></li>
+      <li><span class='career-period'>2011 – 2012</span><div><h3>Texas Instruments</h3><p>Application Developer</p></div></li>
+    </ol>
+    <a class='text-link' href='https://www.linkedin.com/in/josh-piluden-b06798110/' target='_blank' rel='noopener noreferrer'>Full background on LinkedIn <span aria-hidden='true'>↗</span></a>
   </div>
 </section>
 
@@ -42,6 +48,25 @@
       </div>
     </div>
     <p>Bagiyo is a community app for Baguio City and Benguet. It brings local alerts and useful everyday tools together in one place.</p>
+    <figure class='project-preview'>
+      <button type='button' class='preview-trigger' aria-haspopup='dialog' aria-controls='project-preview-dialog' aria-label='View screenshot of Bagiyo' (click)='openPreview(projectPreview)'>
+        <img src='images/bagiyo-preview.webp' width='1200' height='589' alt='Bagiyo local updates dashboard with power notices, scheduled outages, and area filters' loading='lazy' decoding='async'>
+        <span class='preview-caption'>View screenshot <span aria-hidden='true'>↗</span></span>
+      </button>
+    </figure>
+    <dialog #projectPreview id='project-preview-dialog' class='screenshot-dialog' aria-labelledby='preview-title' aria-describedby='preview-help' [attr.data-zoomed]='previewZoomed()' (click)='closePreviewOnBackdrop($event, projectPreview)'>
+      <div class='preview-toolbar'>
+        <h2 id='preview-title'>Bagiyo</h2>
+        <div class='preview-actions'>
+          <button type='button' class='preview-zoom' [attr.aria-pressed]='previewZoomed()' (click)='previewZoomed.set(!previewZoomed())'>Actual size</button>
+          <form method='dialog'><button type='submit' class='preview-close' autofocus>Close <span aria-hidden='true'>×</span></button></form>
+        </div>
+      </div>
+      <p id='preview-help' class='preview-help'>Use Actual size to inspect details, then scroll.</p>
+      <div class='preview-scroll' tabindex='0' role='region' aria-label='Full-size Bagiyo screenshot'>
+        <img src='images/bagiyo-screenshot.webp' width='2048' height='1005' alt='Bagiyo local updates dashboard with power notices, scheduled outages, and area filters' loading='lazy' decoding='async'>
+      </div>
+    </dialog>
     <ul class='tech-stack' aria-label='Areas of focus'><li>Community alerts</li><li>Useful local tools</li><li>Automation</li></ul>
     <a class='text-link more-link' href='https://github.com/jjosh102' target='_blank' rel='noopener noreferrer'>More of my work on GitHub <span aria-hidden='true'>↗</span></a>
   </div>

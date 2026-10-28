@@ -10,6 +10,19 @@ export class DashboardSection {
   private readonly destroyRef = inject(DestroyRef);
   readonly email = 'joshuajpiluden@gmail.com';
   readonly copyStatus = signal('');
+  readonly previewZoomed = signal(false);
+
+  openPreview(dialog: HTMLDialogElement): void {
+    this.previewZoomed.set(false);
+    dialog.showModal();
+  }
+
+  closePreviewOnBackdrop(event: MouseEvent, dialog: HTMLDialogElement): void {
+    if (event.target === dialog) {
+      const bounds = dialog.getBoundingClientRect();
+      if (event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom) dialog.close();
+    }
+  }
 
   async copyEmail(): Promise<void> {
     try {
