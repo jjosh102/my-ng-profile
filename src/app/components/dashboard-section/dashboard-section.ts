@@ -12,6 +12,10 @@ export class DashboardSection {
   readonly copyStatus = signal('');
   readonly previewZoomed = signal(false);
 
+  printProfile(): void {
+    this.document.defaultView?.print();
+  }
+
   openPreview(dialog: HTMLDialogElement): void {
     this.previewZoomed.set(false);
     dialog.showModal();
