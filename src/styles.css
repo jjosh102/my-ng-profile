@@ -359,6 +359,27 @@ body:has(.screenshot-dialog[open]) { overflow: hidden; }
 .preview-scroll img { display: block; width: 100%; max-width: 100%; height: auto; }
 .screenshot-dialog[data-zoomed='true'] .preview-scroll img { width: 2048px; max-width: none; }
 
+
+/* Related projects: editorial entries, not a second set of dashboard cards. */
+.project-additions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(1.25rem, 3vw, 2.5rem);
+  margin-top: 2rem;
+  padding-top: 1.8rem;
+  border-top: 1px solid var(--border);
+}
+.project-mini { display: flex; flex-direction: column; min-width: 0; }
+.project-mini + .project-mini { border-left: 1px solid var(--border); padding-left: clamp(1.25rem, 3vw, 2.5rem); }
+.project-mini .project-kicker { margin-bottom: .65rem; }
+.project-mini h3 { margin: 0 0 .65rem; font-size: clamp(1.35rem, 2.5vw, 1.65rem); font-weight: 650; letter-spacing: -.035em; }
+.project-mini > p:not(.project-kicker) { margin: 0 0 1rem; color: var(--muted); font-size: .9rem; line-height: 1.75; }
+.project-mini .project-actions { margin-top: auto; }
+@media (max-width: 700px) {
+  .project-additions { grid-template-columns: 1fr; gap: 1.25rem; }
+  .project-mini + .project-mini { border-left: 0; border-top: 1px solid var(--border); padding: 1.25rem 0 0; }
+}
+
 /* Resource links let visitors explore notes and guides without guesswork. */
 .resource-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .85rem; margin-top: 1.5rem; }
 .resource-card {
