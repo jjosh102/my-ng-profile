@@ -63,6 +63,7 @@ button { font: inherit; cursor: pointer; }
 a { color: inherit; text-underline-offset: .24em; }
 a, button { touch-action: manipulation; }
 svg { display: block; max-width: 100%; }
+.link-arrow { flex-shrink: 0; width: 1em; height: 1em; }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
 ::selection { background: rgba(var(--accent-rgb), .3); color: var(--foreground); }
 app-root, app-header, app-dashboard-section, app-footer { display: block; }
@@ -233,7 +234,7 @@ app-header { position: sticky; top: 0; z-index: 40; }
   transition: text-decoration-color .18s ease;
 }
 .text-link:hover { text-decoration-color: currentColor; }
-.text-link span, .project-link span { margin-left: .35rem; }
+.text-link span, .project-link span, .text-link .link-arrow, .project-link .link-arrow { margin-left: .35rem; }
 .hero-note {
   min-width: 0;
   border-left: 1px solid var(--border-strong);
