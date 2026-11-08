@@ -251,6 +251,8 @@ app-header { position: sticky; top: 0; z-index: 40; }
 .hero-note p { margin: 0 0 .65rem; color: var(--muted); font-size: .9rem; line-height: 1.75; }
 .hero-note a { display: inline-flex; align-items: center; min-height: 44px; color: var(--accent-soft); font-size: .88rem; }
 .hero-note a:hover { color: var(--foreground); }
+.hero-app-links { display: flex; flex-wrap: wrap; gap: 0 1.25rem; }
+.hero-app-links a { gap: .4rem; }
 .quick-facts {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -301,18 +303,20 @@ app-header { position: sticky; top: 0; z-index: 40; }
   font-size: clamp(1rem, 1.5vw, 1.1rem);
   line-height: 1.8;
 }
-.work-section .section-body {
-  max-width: none;
+.work-section .section-body { max-width: none; }
+.community-project {
+  margin-top: 1.5rem;
   padding: clamp(1.4rem, 3vw, 2.2rem);
   border: 1px solid var(--border);
   border-radius: 12px;
   background: var(--surface);
   transition: border-color .2s ease, box-shadow .2s ease;
 }
-.work-section .section-body:hover, .work-section .section-body:focus-within {
+.community-project:hover, .community-project:focus-within {
   border-color: var(--border-strong);
   box-shadow: var(--shadow-soft);
 }
+.community-project > p:not(.project-kicker) { margin: 0; color: var(--muted); line-height: 1.8; }
 .project-heading { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: .8rem 1.2rem; margin-bottom: .8rem; }
 .project-heading h3 { margin: 0; font-size: clamp(1.55rem, 3vw, 2.2rem); font-weight: 650; letter-spacing: -.045em; }
 .project-actions { display: flex; flex-wrap: wrap; gap: .4rem 1.2rem; }
@@ -360,24 +364,28 @@ body:has(.screenshot-dialog[open]) { overflow: hidden; }
 .screenshot-dialog[data-zoomed='true'] .preview-scroll img { width: 2048px; max-width: none; }
 
 
-/* Related projects: editorial entries, not a second set of dashboard cards. */
-.project-additions {
+/* App links lead selected work; each card keeps its launch action in view. */
+.app-showcase {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: clamp(1.25rem, 3vw, 2.5rem);
-  margin-top: 2rem;
-  padding-top: 1.8rem;
-  border-top: 1px solid var(--border);
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr));
+  gap: 1rem;
 }
-.project-mini { display: flex; flex-direction: column; min-width: 0; }
-.project-mini + .project-mini { border-left: 1px solid var(--border); padding-left: clamp(1.25rem, 3vw, 2.5rem); }
-.project-mini .project-kicker { margin-bottom: .65rem; }
-.project-mini h3 { margin: 0 0 .65rem; font-size: clamp(1.35rem, 2.5vw, 1.65rem); font-weight: 650; letter-spacing: -.035em; }
-.project-mini > p:not(.project-kicker) { margin: 0 0 1rem; color: var(--muted); font-size: .9rem; line-height: 1.75; }
-.project-mini .project-actions { margin-top: auto; }
-@media (max-width: 700px) {
-  .project-additions { grid-template-columns: 1fr; gap: 1.25rem; }
-  .project-mini + .project-mini { border-left: 0; border-top: 1px solid var(--border); padding: 1.25rem 0 0; }
+.app-project { display: flex; flex-direction: column; min-width: 0; padding: clamp(1.25rem, 2.5vw, 1.75rem); border: 1px solid var(--border); border-top: 3px solid var(--accent); border-radius: 12px; background: var(--surface); transition: border-color .2s ease, box-shadow .2s ease; }
+.app-project:hover, .app-project:focus-within { border-color: var(--border-strong); box-shadow: var(--shadow-soft); }
+.app-identity { display: flex; align-items: center; gap: .75rem; margin-bottom: 1.5rem; }
+.app-identity > span { color: var(--muted); font: .72rem/1.5 var(--font-mono); overflow-wrap: anywhere; }
+.app-glyph { flex: 0 0 44px; width: 44px; height: 44px; padding: 9px; border: 1px solid var(--border-strong); border-radius: 10px; color: var(--accent-soft); }
+.app-project .project-kicker { margin-bottom: .65rem; }
+.app-project h3 { margin: 0 0 .65rem; font-size: clamp(1.55rem, 3vw, 2rem); font-weight: 650; letter-spacing: -.04em; }
+.app-summary { margin: 0 0 1rem; color: var(--muted); font-size: .94rem; line-height: 1.75; }
+.app-benefits { margin: 0 0 1.5rem; padding-left: 1.1rem; color: var(--muted); font-size: .86rem; line-height: 1.7; }
+.app-benefits li + li { margin-top: .5rem; }
+.app-project .project-actions { align-items: center; margin-top: auto; padding-top: .75rem; border-top: 1px solid var(--border); }
+.app-launch { display: inline-flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 44px; padding: .65rem .85rem; border-radius: 6px; background: var(--accent); color: var(--on-accent); font-size: .86rem; font-weight: 650; text-decoration: none; }
+.app-launch:hover { background: var(--accent-hover); }
+@media (max-width: 540px) {
+  .app-project .project-actions { align-items: stretch; flex-direction: column; }
+  .app-project .project-link, .app-launch { justify-content: space-between; min-height: 48px; }
 }
 
 /* Resource links let visitors explore notes and guides without guesswork. */
@@ -520,7 +528,18 @@ body:has(.screenshot-dialog[open]) { overflow: hidden; }
   .career-period { display: block; margin-bottom: 4px; }
   .career-history h3 { font-size: 10pt; }
   .career-history p { font-size: 9pt; }
-  .work-section .section-body { padding: 0; border: 0; background: none; box-shadow: none; }
+  .work-section { break-inside: auto; }
+  .work-section .section-label { break-after: avoid; }
+  .app-showcase { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; break-inside: avoid; }
+  .app-project, .community-project { padding: 0; border: 0; background: none; box-shadow: none; break-inside: avoid; }
+  .community-project { margin-top: 16px; }
+  .app-identity { margin-bottom: 8px; }
+  .app-glyph { display: none; }
+  .app-project h3 { font-size: 14pt; }
+  .app-summary, .app-benefits { font-size: 9pt; line-height: 1.5; margin-bottom: 8px; }
+  .app-project .project-actions { margin-top: 0; padding-top: 4px; flex-direction: row; gap: 4px 16px; }
+  .app-launch { min-height: 0; padding: 0; background: none; color: #111; font-size: 9pt; }
+  .app-project .project-link { min-height: 0; }
   .project-heading { display: flex; flex-direction: row; margin-bottom: 6px; }
   .project-heading h3 { font-size: 16pt; }
   .project-kicker { margin-bottom: 6px; }

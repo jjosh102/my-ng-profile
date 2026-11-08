@@ -14,7 +14,10 @@
       <span class='hero-note-kicker'>On my desk</span>
       <h2>Bayadak &amp; Buyaek</h2>
       <p>Two focused apps: one for keeping up with bills and reminders, another for finding what to watch or play next.</p>
-      <a href='#work'>Explore the projects <span aria-hidden='true'>↘</span></a>
+      <div class='hero-app-links'>
+        <a href='https://bayadak.jjosh.dev/' target='_blank' rel='noopener noreferrer' aria-label='Open Bayadak (opens in a new tab)'>Bayadak <span aria-hidden='true'>↗</span></a>
+        <a href='https://buyaek.jjosh.dev/' target='_blank' rel='noopener noreferrer' aria-label='Open Buyaek (opens in a new tab)'>Buyaek <span aria-hidden='true'>↗</span></a>
+      </div>
     </aside>
   </div>
   <dl class='quick-facts' aria-label='At a glance'>
@@ -40,56 +43,68 @@
 <section id='work' class='section-row work-section' aria-labelledby='work-title'>
   <h2 id='work-title' class='section-label' data-number='02 / Selected work'>What I'm building</h2>
   <div class='section-body'>
-    <p class='project-kicker'>Community project</p>
-    <div class='project-heading'>
-      <h3>Bagiyo</h3>
-      <div class='project-actions'>
-        <a class='project-link' href='https://bagiyo.org/' target='_blank' rel='noopener noreferrer' aria-label='Visit Bagiyo (opens in a new tab)'>Visit site <span aria-hidden='true'>↗</span></a>
-        <a class='project-link' href='https://jjosh.dev/work/bagiyo/' target='_blank' rel='noopener noreferrer' aria-label='Read the Bagiyo case study on jjosh.dev (opens in a new tab)'>How I built it <span aria-hidden='true'>↗</span></a>
-      </div>
-    </div>
-    <p>Bagiyo is a community app for Baguio City and Benguet. It brings local alerts and useful everyday tools together in one place.</p>
-    <figure class='project-preview'>
-      <button type='button' class='preview-trigger' aria-haspopup='dialog' aria-controls='project-preview-dialog' aria-label='View screenshot of Bagiyo' (click)='openPreview(projectPreview)'>
-        <img src='images/bagiyo-preview.webp' width='1200' height='589' alt='Bagiyo local updates dashboard with power notices, scheduled outages, and area filters' loading='lazy' decoding='async'>
-        <span class='preview-caption'>View screenshot <span aria-hidden='true'>↗</span></span>
-      </button>
-    </figure>
-    <dialog #projectPreview id='project-preview-dialog' class='screenshot-dialog' aria-labelledby='preview-title' aria-describedby='preview-help' [attr.data-zoomed]='previewZoomed()' (click)='closePreviewOnBackdrop($event, projectPreview)'>
-      <div class='preview-toolbar'>
-        <h2 id='preview-title'>Bagiyo</h2>
-        <div class='preview-actions'>
-          <button type='button' class='preview-zoom' [attr.aria-pressed]='previewZoomed()' (click)='previewZoomed.set(!previewZoomed())'>Actual size</button>
-          <form method='dialog'><button type='submit' class='preview-close' autofocus>Close <span aria-hidden='true'>×</span></button></form>
+    <div class='app-showcase' aria-label='Personal apps'>
+      <article class='app-project' aria-labelledby='bayadak-title'>
+        <div class='app-identity'>
+          <svg class='app-glyph' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.5' aria-hidden='true'><rect x='5' y='3' width='14' height='18' rx='2'/><path d='M9 8h6M9 12h6M9 16h3'/></svg>
+          <span>bayadak.jjosh.dev</span>
         </div>
-      </div>
-      <p id='preview-help' class='preview-help'>Use Actual size to inspect details, then scroll.</p>
-      <div class='preview-scroll' tabindex='0' role='region' aria-label='Full-size Bagiyo screenshot'>
-        <img src='images/bagiyo-screenshot.webp' width='2048' height='1005' alt='Bagiyo local updates dashboard with power notices, scheduled outages, and area filters' loading='lazy' decoding='async'>
-      </div>
-    </dialog>
-    <ul class='tech-stack' aria-label='Areas of focus'><li>Community alerts</li><li>Useful local tools</li><li>Automation</li></ul>
-
-    <div class='project-additions' aria-label='More personal projects'>
-      <article class='project-mini' aria-labelledby='bayadak-title'>
         <p class='project-kicker'>Bills and reminders</p>
         <h3 id='bayadak-title'>Bayadak</h3>
-        <p>A personal space for bills, recurring due dates, payment history, and reminders, with an encrypted vault and monthly planning.</p>
+        <p class='app-summary'>A personal space for bills, recurring due dates, payment history, and reminders.</p>
+        <ul class='app-benefits'><li>A monthly view of what is due next.</li><li>Payment history, categories, and monthly planning.</li></ul>
         <div class='project-actions'>
-          <a class='project-link' href='https://bayadak.jjosh.dev/' target='_blank' rel='noopener noreferrer' aria-label='Open Bayadak (opens in a new tab)'>Open app <span aria-hidden='true'>↗</span></a>
+          <a class='app-launch' href='https://bayadak.jjosh.dev/' target='_blank' rel='noopener noreferrer' aria-label='Open Bayadak (opens in a new tab)'>Open Bayadak <span aria-hidden='true'>↗</span></a>
           <a class='project-link' href='https://jjosh.dev/work/bayadak/' target='_blank' rel='noopener noreferrer' aria-label='Read about Bayadak on jjosh.dev (opens in a new tab)'>Project notes <span aria-hidden='true'>↗</span></a>
         </div>
       </article>
-      <article class='project-mini' aria-labelledby='buyaek-title'>
+      <article class='app-project' aria-labelledby='buyaek-title'>
+        <div class='app-identity'>
+          <svg class='app-glyph' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.5' aria-hidden='true'><rect x='3' y='5' width='18' height='14' rx='2'/><path d='M8 5v14M16 5v14M3 10h5M16 10h5M3 14h5M16 14h5'/></svg>
+          <span>buyaek.jjosh.dev</span>
+        </div>
         <p class='project-kicker'>Media discovery</p>
         <h3 id='buyaek-title'>Buyaek</h3>
-        <p>A place to discover and save movies, TV, anime, and games, with personal recommendations, collections, and release calendars.</p>
+        <p class='app-summary'>A place to discover and save movies, TV, anime, and games.</p>
+        <ul class='app-benefits'><li>Personal recommendations for what to watch or play.</li><li>Collections and release calendars to keep track of it all.</li></ul>
         <div class='project-actions'>
-          <a class='project-link' href='https://buyaek.jjosh.dev/' target='_blank' rel='noopener noreferrer' aria-label='Open Buyaek (opens in a new tab)'>Open app <span aria-hidden='true'>↗</span></a>
+          <a class='app-launch' href='https://buyaek.jjosh.dev/' target='_blank' rel='noopener noreferrer' aria-label='Open Buyaek (opens in a new tab)'>Open Buyaek <span aria-hidden='true'>↗</span></a>
           <a class='project-link' href='https://jjosh.dev/work/buyaek/' target='_blank' rel='noopener noreferrer' aria-label='Read about Buyaek on jjosh.dev (opens in a new tab)'>Project notes <span aria-hidden='true'>↗</span></a>
         </div>
       </article>
     </div>
+
+    <article class='community-project' aria-labelledby='bagiyo-title'>
+      <p class='project-kicker'>Community project</p>
+      <div class='project-heading'>
+        <h3 id='bagiyo-title'>Bagiyo</h3>
+        <div class='project-actions'>
+          <a class='project-link' href='https://bagiyo.org/' target='_blank' rel='noopener noreferrer' aria-label='Visit Bagiyo (opens in a new tab)'>Visit site <span aria-hidden='true'>↗</span></a>
+          <a class='project-link' href='https://jjosh.dev/work/bagiyo/' target='_blank' rel='noopener noreferrer' aria-label='Read the Bagiyo case study on jjosh.dev (opens in a new tab)'>How I built it <span aria-hidden='true'>↗</span></a>
+        </div>
+      </div>
+      <p>Bagiyo is a community app for Baguio City and Benguet. It brings local alerts and useful everyday tools together in one place.</p>
+      <figure class='project-preview'>
+        <button type='button' class='preview-trigger' aria-haspopup='dialog' aria-controls='project-preview-dialog' aria-label='View screenshot of Bagiyo' (click)='openPreview(projectPreview)'>
+          <img src='images/bagiyo-preview.webp' width='1200' height='589' alt='Bagiyo local updates dashboard with power notices, scheduled outages, and area filters' loading='lazy' decoding='async'>
+          <span class='preview-caption'>View screenshot <span aria-hidden='true'>↗</span></span>
+        </button>
+      </figure>
+      <dialog #projectPreview id='project-preview-dialog' class='screenshot-dialog' aria-labelledby='preview-title' aria-describedby='preview-help' [attr.data-zoomed]='previewZoomed()' (click)='closePreviewOnBackdrop($event, projectPreview)'>
+        <div class='preview-toolbar'>
+          <h2 id='preview-title'>Bagiyo</h2>
+          <div class='preview-actions'>
+            <button type='button' class='preview-zoom' [attr.aria-pressed]='previewZoomed()' (click)='previewZoomed.set(!previewZoomed())'>Actual size</button>
+            <form method='dialog'><button type='submit' class='preview-close' autofocus>Close <span aria-hidden='true'>×</span></button></form>
+          </div>
+        </div>
+        <p id='preview-help' class='preview-help'>Use Actual size to inspect details, then scroll.</p>
+        <div class='preview-scroll' tabindex='0' role='region' aria-label='Full-size Bagiyo screenshot'>
+          <img src='images/bagiyo-screenshot.webp' width='2048' height='1005' alt='Bagiyo local updates dashboard with power notices, scheduled outages, and area filters' loading='lazy' decoding='async'>
+        </div>
+      </dialog>
+      <ul class='tech-stack' aria-label='Areas of focus'><li>Community alerts</li><li>Useful local tools</li><li>Automation</li></ul>
+    </article>
     <a class='text-link more-link' href='https://github.com/jjosh102' target='_blank' rel='noopener noreferrer'>More of my work on GitHub <span aria-hidden='true'>↗</span></a>
   </div>
 </section>
