@@ -381,11 +381,10 @@ body:has(.screenshot-dialog[open]) { overflow: hidden; }
 .app-summary { margin: 0 0 1rem; color: var(--muted); font-size: .94rem; line-height: 1.75; }
 .app-benefits { margin: 0 0 1.5rem; padding-left: 1.1rem; color: var(--muted); font-size: .86rem; line-height: 1.7; }
 .app-benefits li + li { margin-top: .5rem; }
-.app-project .project-actions { align-items: center; margin-top: auto; padding-top: .75rem; border-top: 1px solid var(--border); }
+.app-project .project-actions { align-items: stretch; flex-direction: column; margin-top: auto; padding-top: .75rem; border-top: 1px solid var(--border); }
 .app-launch { display: inline-flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 44px; padding: .65rem .85rem; border-radius: 6px; background: var(--accent); color: var(--on-accent); font-size: .86rem; font-weight: 650; text-decoration: none; }
 .app-launch:hover { background: var(--accent-hover); }
 @media (max-width: 540px) {
-  .app-project .project-actions { align-items: stretch; flex-direction: column; }
   .app-project .project-link, .app-launch { justify-content: space-between; min-height: 48px; }
 }
 
