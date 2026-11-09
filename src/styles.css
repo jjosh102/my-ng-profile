@@ -248,12 +248,15 @@ app-header { position: sticky; top: 0; z-index: 40; }
   letter-spacing: .06em;
   text-transform: uppercase;
 }
-.hero-note h2 { margin: 0 0 .65rem; font-size: 1.7rem; font-weight: 620; letter-spacing: -.04em; }
-.hero-note p { margin: 0 0 .65rem; color: var(--muted); font-size: .9rem; line-height: 1.75; }
-.hero-note a { display: inline-flex; align-items: center; min-height: 44px; color: var(--accent-soft); font-size: .88rem; }
-.hero-note a:hover { color: var(--foreground); }
-.hero-app-links { display: flex; flex-wrap: wrap; gap: 0 1.25rem; }
-.hero-app-links a { gap: .4rem; }
+.hero-note h2 { margin: 0; font-size: 1.55rem; font-weight: 620; letter-spacing: -.04em; }
+.hero-app-list { display: grid; margin-top: 1.125rem; border-top: 1px solid var(--border); }
+.hero-note .hero-app-link { display: grid; grid-template-columns: 32px minmax(0, 1fr) 16px; align-items: center; gap: .75rem; min-height: 64px; padding: .5rem .25rem; border-bottom: 1px solid var(--border); color: var(--foreground); text-decoration: none; transition: background-color .2s ease; }
+.hero-note .hero-app-link:hover, .hero-note .hero-app-link:focus-visible { background: rgba(var(--accent-rgb), .055); }
+.hero-app-icon { width: 32px; height: 32px; padding: 6px; border: 1px solid var(--border); border-radius: 8px; }
+.hero-app-copy { display: grid; gap: 1px; min-width: 0; }
+.hero-app-copy strong { font-size: .91rem; font-weight: 650; line-height: 1.4; }
+.hero-app-copy small { color: var(--muted); font-size: .76rem; line-height: 1.45; }
+.hero-app-link > svg:last-child { color: var(--muted); }
 .quick-facts {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -324,7 +327,7 @@ app-header { position: sticky; top: 0; z-index: 40; }
 .project-link {
   display: inline-flex;
   align-items: center;
-  min-height: 40px;
+  min-height: 44px;
   color: var(--accent-soft);
   font-size: .86rem;
   font-weight: 650;
@@ -471,6 +474,9 @@ body:has(.screenshot-dialog[open]) { overflow: hidden; }
   .hero h1 { font-size: clamp(3rem, 12vw, 4.1rem); }
   .hero-intro { margin-top: 1.3rem; }
   .hero-actions { margin-top: 1.5rem; }
+  .primary-nav { gap: 0; }
+  .nav-link { min-width: 0; padding-inline: .15rem; font-size: clamp(.72rem, 2.8vw, .86rem); }
+  .hero-app-list { margin-top: .75rem; }
   .quick-facts { grid-template-columns: 1fr; padding-block: .25rem; }
   .quick-facts > div, .quick-facts > div:first-child { padding: 1rem 0; }
   .quick-facts > div + div { border-left: 0; border-top: 1px solid var(--border); }
