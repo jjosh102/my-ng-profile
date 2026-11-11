@@ -361,7 +361,7 @@ body:has(.screenshot-dialog[open]) { overflow: hidden; }
 .preview-toolbar form { margin: 0; }
 .preview-actions { display: flex; gap: .5rem; margin-left: auto; }
 .preview-close, .preview-zoom { display: inline-flex; align-items: center; gap: .5rem; min-height: 44px; padding: .5rem .65rem; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); color: var(--foreground); font-size: .85rem; }
-.preview-zoom[aria-pressed='true'] { border-color: var(--foreground); background: var(--surface-soft); }
+.screenshot-dialog[data-zoomed='true'] .preview-zoom { border-color: var(--foreground); background: var(--surface-soft); }
 .preview-help { flex-shrink: 0; color: var(--muted); font-size: .8rem; margin: .5rem 0 .75rem; }
 .preview-scroll { min-height: 0; max-height: calc(100dvh - 10rem); overflow: auto; border: 1px solid var(--border); border-radius: 6px; }
 .preview-scroll img { display: block; width: 100%; max-width: 100%; height: auto; }
@@ -382,9 +382,34 @@ body:has(.screenshot-dialog[open]) { overflow: hidden; }
 .app-project .project-kicker { margin-bottom: .65rem; }
 .app-project h3 { margin: 0 0 .65rem; font-size: clamp(1.55rem, 3vw, 2rem); font-weight: 650; letter-spacing: -.04em; }
 .app-summary { margin: 0 0 1rem; color: var(--muted); font-size: .94rem; line-height: 1.75; }
-.app-benefits { margin: 0 0 1.5rem; padding-left: 1.1rem; color: var(--muted); font-size: .86rem; line-height: 1.7; }
-.app-benefits li + li { margin-top: .5rem; }
-.app-project .project-actions { align-items: stretch; flex-direction: column; margin-top: auto; padding-top: .75rem; border-top: 1px solid var(--border); }
+.app-benefits {
+  display: grid;
+  gap: 0;
+  list-style: none;
+  margin: 0 0 1.5rem;
+  padding: 0;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  font-size: .86rem;
+  line-height: 1.65;
+}
+.app-benefits li {
+  display: grid;
+  grid-template-columns: 7px minmax(0, 1fr);
+  align-items: baseline;
+  gap: .7rem;
+  border-bottom: 1px solid var(--border);
+  padding: .65rem 0;
+}
+.app-benefits li::before {
+  content: '';
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--muted);
+  margin-top: .55em;
+}
+.app-project .project-actions { align-items: stretch; flex-direction: column; margin-top: auto; padding-top: 0; }
 .app-launch { display: inline-flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 44px; padding: .65rem .85rem; border-radius: 6px; background: var(--accent); color: var(--on-accent); font-size: .86rem; font-weight: 650; text-decoration: none; }
 .app-launch:hover { background: var(--accent-hover); }
 @media (max-width: 540px) {

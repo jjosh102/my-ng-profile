@@ -101,11 +101,11 @@
         <div class='preview-toolbar'>
           <h2 id='preview-title'>Bagiyo</h2>
           <div class='preview-actions'>
-            <button type='button' class='preview-zoom' [attr.aria-pressed]='previewZoomed()' (click)='previewZoomed.set(!previewZoomed())'>Actual size</button>
+            <button type='button' class='preview-zoom' (click)='previewZoomed.set(!previewZoomed())'>{{ previewZoomed() ? 'Fit to width' : 'Actual size' }}</button>
             <form method='dialog'><button type='submit' class='preview-close' autofocus>Close <span aria-hidden='true'>×</span></button></form>
           </div>
         </div>
-        <p id='preview-help' class='preview-help'>Use Actual size to inspect details, then scroll.</p>
+        <p id='preview-help' class='preview-help'>Switch between fit-to-width and actual-size detail. Scroll to inspect the full image.</p>
         <div class='preview-scroll' tabindex='0' role='region' aria-label='Full-size Bagiyo screenshot'>
           <img src='images/bagiyo-screenshot.webp' width='2048' height='1005' alt='Bagiyo local updates dashboard with power notices, scheduled outages, and area filters' loading='lazy' decoding='async'>
         </div>
