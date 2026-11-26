@@ -6,7 +6,7 @@
       <p class='hero-intro'>I build web apps and tools that make everyday work a little easier. Most of my work is in C#/.NET, Angular, and PostgreSQL.</p>
       <p class='print-source'>More projects and notes: https://jjosh.dev/</p>
       <div class='hero-actions'>
-        <a class='primary-link' href='#work'>See my work <svg class='link-arrow' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true' focusable='false'><path d='m7 7 10 10M7 17h10V7'/></svg></a>
+        <a class='primary-link' routerLink='/' fragment='work'>See my work <svg class='link-arrow' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true' focusable='false'><path d='m7 7 10 10M7 17h10V7'/></svg></a>
         <a class='text-link' href='mailto:joshuajpiluden@gmail.com'>Email me <svg class='link-arrow' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true' focusable='false'><path d='M7 17 17 7M7 7h10v10'/></svg></a>
       </div>
     </div>
@@ -28,7 +28,7 @@
   </div>
 </section>
 
-<section id='work' class='section-row work-section' aria-labelledby='work-title'>
+<section id='work' tabindex='-1' class='section-row work-section' aria-labelledby='work-title'>
   <div class='work-intro'>
     <h2 id='work-title' class='section-label'>What I'm building</h2>
     <p class='section-lede'>Personal apps for everyday tasks, plus a community project for Baguio and Benguet.</p>
@@ -106,7 +106,7 @@
   </div>
 </section>
 
-<section id='about' class='section-row' aria-labelledby='about-title'>
+<section id='about' tabindex='-1' class='section-row' aria-labelledby='about-title'>
   <h2 id='about-title' class='section-label'>Background</h2>
   <div class='section-body'>
     <p>My day job is building business applications, reports, and workflow tools. I like useful software, clear interfaces, and keeping things simple.</p>
@@ -119,26 +119,33 @@
   </div>
 </section>
 
-<section id='resources' class='section-row' aria-labelledby='notes-title'>
+<section id='resources' tabindex='-1' class='section-row' aria-labelledby='notes-title'>
   <h2 id='notes-title' class='section-label'>From the workbench</h2>
   <div class='section-body'>
-    <p class='section-lede'>Notes, lessons, and step-by-step walkthroughs from building useful software, including the parts that did not work the first time.</p>
-    <div class='resource-list'>
-      <a class='resource-link' href='https://jjosh.dev/notes/' target='_blank' rel='noopener noreferrer' aria-label='Read notes on jjosh.dev (opens in a new tab)'>
-        <span class='resource-kind'>Field notes</span>
-        <span class='resource-copy'><strong>Notes</strong><span>What I learned while building and maintaining real projects.</span></span>
-        <svg class='resource-arrow link-arrow' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true' focusable='false'><path d='M7 17 17 7M7 7h10v10'/></svg>
-      </a>
-      <a class='resource-link' href='https://jjosh.dev/guides/' target='_blank' rel='noopener noreferrer' aria-label='Browse guides on jjosh.dev (opens in a new tab)'>
-        <span class='resource-kind'>Walkthroughs</span>
-        <span class='resource-copy'><strong>Guides</strong><span>Step-by-step setups and technical workflows worth keeping.</span></span>
-        <svg class='resource-arrow link-arrow' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true' focusable='false'><path d='M7 17 17 7M7 7h10v10'/></svg>
-      </a>
-    </div>
+    <ul class='resource-list'>
+      <li>
+        <a class='resource-link' href='https://jjosh.dev/notes/' target='_blank' rel='noopener noreferrer' aria-label='Notes on jjosh.dev (opens in a new tab)'>
+          <span class='resource-copy'><strong>Notes</strong><span>Lessons from building and maintaining my projects.</span></span>
+          <svg class='resource-arrow link-arrow' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true' focusable='false'><path d='M7 17 17 7M7 7h10v10'/></svg>
+        </a>
+      </li>
+      <li>
+        <a class='resource-link' href='https://jjosh.dev/guides/' target='_blank' rel='noopener noreferrer' aria-label='Guides on jjosh.dev (opens in a new tab)'>
+          <span class='resource-copy'><strong>Guides</strong><span>Step-by-step walkthroughs for setups and technical workflows.</span></span>
+          <svg class='resource-arrow link-arrow' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true' focusable='false'><path d='M7 17 17 7M7 7h10v10'/></svg>
+        </a>
+      </li>
+      <li>
+        <a class='resource-link' href='https://docs.jjosh.dev/' target='_blank' rel='noopener noreferrer' aria-label='Documentation on docs.jjosh.dev (opens in a new tab)'>
+          <span class='resource-copy'><strong>Documentation</strong><span>Bagiyo, Bayadak, and Buyaek guides, architecture, and runbooks.</span></span>
+          <svg class='resource-arrow link-arrow' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true' focusable='false'><path d='M7 17 17 7M7 7h10v10'/></svg>
+        </a>
+      </li>
+    </ul>
   </div>
 </section>
 
-<section id='contact' class='section-row contact-section' aria-labelledby='contact-title'>
+<section id='contact' tabindex='-1' class='section-row contact-section' aria-labelledby='contact-title'>
   <div class='contact-heading'>
     <h2 id='contact-title' class='section-label'>Get in touch</h2>
     <p>For project questions or a quick hello, email works best.</p>

@@ -302,6 +302,12 @@ app-header { position: sticky; top: 0; z-index: 40; }
   border-top: 1px solid var(--border);
 }
 .section-label { margin: .2rem 0 0; color: var(--foreground); font-size: 1.1rem; font-weight: 650; letter-spacing: -.025em; }
+.section-row:focus-visible { outline: none; }
+.section-row:focus-visible .section-label {
+  text-decoration: underline;
+  text-decoration-color: var(--border-strong);
+  text-underline-offset: .3em;
+}
 .section-body { max-width: 46rem; min-width: 0; }
 .career-history { list-style: none; padding: 0; margin: 1.5rem 0 .5rem; }
 .career-history li { display: grid; grid-template-columns: minmax(8rem, 1fr) minmax(0, 2fr); gap: 1rem; padding-block: 1.15rem; border-top: 1px solid var(--border); }
@@ -435,16 +441,26 @@ body:has(.screenshot-dialog[open]) { overflow: hidden; }
   .app-project .project-link { padding-inline: .75rem; }
 }
 
-/* Flat reading links distinguish notes from practical walkthroughs. */
-.resource-list { margin-top: 1.5rem; border-top: 1px solid var(--border-strong); }
-.resource-link { display: grid; grid-template-columns: 7.5rem minmax(0, 1fr) 20px; align-items: center; gap: 1.25rem; min-height: 120px; padding: 1.5rem .5rem; border-bottom: 1px solid var(--border); color: var(--foreground); text-decoration: none; transition: background .2s ease; }
+/* Keep related destinations readable as a single list. */
+.resource-list { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--border-strong); }
+.resource-link {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 1rem;
+  min-height: 72px;
+  padding: .8rem .65rem;
+  border-bottom: 1px solid var(--border);
+  color: var(--foreground);
+  text-decoration: none;
+  transition: background-color .18s ease;
+}
 .resource-link:hover, .resource-link:focus-visible { background: var(--surface); }
-.resource-kind { color: var(--muted); font: .68rem/1.6 var(--font-mono); letter-spacing: .04em; text-transform: uppercase; }
-.resource-copy { display: grid; gap: .5rem; min-width: 0; }
-.resource-copy strong { font-size: 1.3rem; font-weight: 600; letter-spacing: -.025em; }
-.resource-copy > span { color: var(--muted); font-size: .9rem; line-height: 1.7; }
-.resource-arrow { color: var(--accent-soft); transition: transform .2s ease; }
-.resource-link:hover .resource-arrow, .resource-link:focus-visible .resource-arrow { transform: translate(2px, -2px); }
+.resource-copy { display: grid; gap: .2rem; min-width: 0; }
+.resource-copy strong { font-size: 1.05rem; font-weight: 650; line-height: 1.4; }
+.resource-copy > span { color: var(--muted); font-size: .875rem; line-height: 1.55; }
+.resource-link:hover strong, .resource-link:focus-visible strong { text-decoration: underline; }
+.resource-arrow { color: var(--accent-soft); }
 
 /* The address is readable and selectable even without a mail app or clipboard. */
 .section-row.contact-section { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: center; gap: clamp(2rem, 5vw, 4rem); padding-block: clamp(3.5rem, 6vw, 5rem); }
@@ -510,9 +526,6 @@ body:has(.screenshot-dialog[open]) { overflow: hidden; }
   .hero-actions { margin-top: 1.5rem; }
   .primary-nav { gap: 0; }
   .nav-link { min-width: 0; padding-inline: .15rem; font-size: clamp(.72rem, 2.8vw, .86rem); }
-  .resource-link { grid-template-columns: minmax(0, 1fr) 20px; gap: .5rem 1rem; padding-block: 1.25rem; }
-  .resource-kind, .resource-copy { grid-column: 1; }
-  .resource-arrow { grid-column: 2; grid-row: 1 / span 2; }
   .site-footer { align-items: flex-start; flex-direction: column; gap: 1rem; margin-top: 2.25rem; }
 }
 @media (max-width: 380px) {
@@ -584,7 +597,7 @@ body:has(.screenshot-dialog[open]) { overflow: hidden; }
   .more-link { margin-top: 10px; }
   .resource-list { margin-top: 12px; }
   .resource-link { min-height: 0; padding: 10px 0; gap: 8px 16px; grid-template-columns: minmax(0, 1fr); break-inside: avoid; }
-  .resource-kind, .resource-arrow { display: none; }
+  .resource-arrow { display: none; }
   .resource-copy { gap: 4px; }
   .resource-copy strong { font-size: 11pt; }
   .resource-copy > span { font-size: 9pt; }

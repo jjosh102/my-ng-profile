@@ -1,8 +1,10 @@
 import { Component, DestroyRef, DOCUMENT, inject, signal } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard-section',
   standalone: true,
+  imports: [RouterLink],
   templateUrl: './dashboard-section.html',
 })
 export class DashboardSection {
