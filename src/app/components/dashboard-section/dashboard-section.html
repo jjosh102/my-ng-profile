@@ -83,22 +83,24 @@
         <ul class='tech-stack' aria-label='Areas of focus'><li>Community alerts</li><li>Useful local tools</li><li>Automation</li></ul>
       </div>
       <figure class='project-preview'>
-        <button type='button' class='preview-trigger' aria-haspopup='dialog' aria-controls='project-preview-dialog' aria-label='View screenshot of Bagiyo' (click)='openPreview(projectPreview)'>
+        <button #previewTrigger type='button' class='preview-trigger' aria-haspopup='dialog' aria-controls='project-preview-dialog' aria-label='View screenshot of Bagiyo' (click)='openPreview(projectPreview, previewViewport)'>
           <img src='images/bagiyo-preview.webp' width='1200' height='589' alt='Bagiyo local updates dashboard with power notices, scheduled outages, and area filters' loading='lazy' decoding='async'>
           <span class='preview-caption'>View screenshot <svg class='link-arrow' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true' focusable='false'><path d='M7 17 17 7M7 7h10v10'/></svg></span>
         </button>
       </figure>
-      <dialog #projectPreview id='project-preview-dialog' class='screenshot-dialog' aria-labelledby='preview-title' aria-describedby='preview-help' [attr.data-zoomed]='previewZoomed()' (click)='closePreviewOnBackdrop($event, projectPreview)'>
+      <dialog #projectPreview id='project-preview-dialog' class='screenshot-dialog' aria-labelledby='preview-title' aria-describedby='preview-help' [attr.data-zoomed]='previewZoomed()' (click)='closePreviewOnBackdrop($event, projectPreview)' (close)='previewTrigger.focus({ preventScroll: true })'>
         <div class='preview-toolbar'>
           <h2 id='preview-title'>Bagiyo</h2>
           <div class='preview-actions'>
-            <button type='button' class='preview-zoom' (click)='previewZoomed.set(!previewZoomed())'>{{ previewZoomed() ? 'Fit to width' : 'Actual size' }}</button>
+            <button type='button' class='preview-zoom' (click)='togglePreviewZoom(previewViewport)'>{{ previewZoomed() ? 'Fit to window' : 'Actual size' }}</button>
             <form method='dialog'><button type='submit' class='preview-close' autofocus>Close <span aria-hidden='true'>×</span></button></form>
           </div>
         </div>
-        <p id='preview-help' class='preview-help'>Switch between fit-to-width and actual-size detail. Scroll to inspect the full image.</p>
-        <div class='preview-scroll' tabindex='0' role='region' aria-label='Full-size Bagiyo screenshot'>
-          <img src='images/bagiyo-screenshot.webp' width='2048' height='1005' alt='Bagiyo local updates dashboard with power notices, scheduled outages, and area filters' loading='lazy' decoding='async'>
+        <p id='preview-help' class='preview-help'>Use Actual size to inspect details. Scroll or use the arrow keys to pan.</p>
+        <div #previewViewport class='preview-scroll' tabindex='0' role='region' aria-label='Bagiyo screenshot'>
+          @if (previewOpened()) {
+            <img src='images/bagiyo-screenshot.webp' width='2048' height='1005' alt='Bagiyo local updates dashboard with power notices, scheduled outages, and area filters' decoding='async'>
+          }
         </div>
       </dialog>
     </article>

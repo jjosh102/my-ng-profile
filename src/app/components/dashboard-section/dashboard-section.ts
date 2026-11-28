@@ -12,15 +12,23 @@ export class DashboardSection {
   private readonly destroyRef = inject(DestroyRef);
   readonly email = 'joshuajpiluden@gmail.com';
   readonly copyStatus = signal('');
+  readonly previewOpened = signal(false);
   readonly previewZoomed = signal(false);
 
   printProfile(): void {
     this.document.defaultView?.print();
   }
 
-  openPreview(dialog: HTMLDialogElement): void {
+  openPreview(dialog: HTMLDialogElement, viewport: HTMLElement): void {
+    this.previewOpened.set(true);
     this.previewZoomed.set(false);
     dialog.showModal();
+    viewport.scrollTo({ left: 0, top: 0, behavior: 'instant' });
+  }
+
+  togglePreviewZoom(viewport: HTMLElement): void {
+    this.previewZoomed.update((zoomed) => !zoomed);
+    viewport.scrollTo({ left: 0, top: 0, behavior: 'instant' });
   }
 
   closePreviewOnBackdrop(event: MouseEvent, dialog: HTMLDialogElement): void {
